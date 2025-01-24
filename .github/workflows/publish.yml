@@ -5,13 +5,16 @@ on:
     branches:
       - main
     paths:
-      - 'version.txt'
+      - 'groovy/version.txt'
 
 jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      
+      - name: Debug - Show version.txt content
+        run: cat groovy/version.txt
       
       - name: Set up Python
         uses: actions/setup-python@v4
