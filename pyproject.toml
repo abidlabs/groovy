@@ -21,6 +21,9 @@ dynamic = ["dependencies", "version"]
 homepage = "https://github.com/gradio-app/groovy"
 repository = "https://github.com/gradio-app/groovy"
 
+[project.scripts]
+groovy = "groovy.cli:main"
+
 [project.optional-dependencies]
 dev = ["pytest"]
 
