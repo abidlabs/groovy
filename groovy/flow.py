@@ -1,9 +1,10 @@
-from typing import Callable, Sequence, Union
 from collections.abc import Generator
+from typing import Callable, Sequence, Union
+
 import gradio as gr
 
-from groovy.app import create_app
 from groovy.agent import agent_streamer
+from groovy.app import create_app
 
 
 class Flow:

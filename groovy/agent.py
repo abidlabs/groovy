@@ -10,7 +10,6 @@ from selenium.common.exceptions import ElementNotInteractableException, TimeoutE
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
-
 from smolagents import CodeAgent, LiteLLMModel, tool
 from smolagents.agents import ActionStep
 
