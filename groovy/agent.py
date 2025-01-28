@@ -210,14 +210,15 @@ search_request = """
 Find flights from New York to San Francisco on 2025-02-01. Give me the cheapest flight.
 """
 
-def agent_runner(prompt: str):
+def agent_streamer(prompt: str):
     if not api_key:
         raise ValueError("OPENAI_API_KEY environment variable is not set")
 
     global agent
     if agent is None:
         agent = create_agent()
-    agent.run(prompt + helium_instructions)
+    for step in agent.run(prompt + helium_instructions):
+        yield str(step)
 
 if __name__ == "__main__":
-    agent_runner(search_request)
+    agent_streamer(search_request)
