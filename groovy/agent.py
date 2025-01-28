@@ -11,7 +11,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
-from smolagents import CodeAgent, LiteLLMModel, OpenAIServerModel, TransformersModel, tool  # noqa: F401
+from smolagents import CodeAgent, LiteLLMModel, tool
 from smolagents.agents import ActionStep
 
 load_dotenv()
@@ -114,6 +114,11 @@ def create_close_popups(driver):
         return "Modals closed"
     return close_popups
 
+def step_callback(step_log: ActionStep, agent: CodeAgent) -> None:
+    return step_log.llm_output.strip()
+
+def print_step(step_log: ActionStep, agent: CodeAgent) -> None:
+    print("11111111111>>>>>>", step_log)
 
 def create_agent() -> CodeAgent:
     """Creates and returns a configured CodeAgent instance with initialized Chrome driver."""
@@ -134,7 +139,7 @@ def create_agent() -> CodeAgent:
         tools=[go_back, close_popups, search_item],
         model=model,
         additional_authorized_imports=["helium"],
-        step_callbacks=[save_screenshot],
+        step_callbacks=[save_screenshot, print_step, step_callback],
         max_steps=20,
         verbosity_level=2,
     )

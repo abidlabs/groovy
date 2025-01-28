@@ -4,7 +4,7 @@ from groovy.flow import Flow
 
 
 def run_default_flow(prompt: str) -> None:
-    flow = Flow(prompt)
+    flow = Flow(prompt, _run_immediately=True)
     flow.launch()
 
 
