@@ -2,7 +2,6 @@ from io import BytesIO
 from time import sleep
 
 import helium
-from dotenv import load_dotenv
 from PIL import Image
 from selenium import webdriver
 from selenium.common.exceptions import ElementNotInteractableException, TimeoutException
@@ -12,10 +11,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 from smolagents import CodeAgent, LiteLLMModel, OpenAIServerModel, TransformersModel, tool  # noqa: F401
 from smolagents.agents import ActionStep
-
-
-load_dotenv()
-import os
 
 
 model = LiteLLMModel(
@@ -53,7 +48,6 @@ chrome_options.add_argument("--disable-pdf-viewer")
 driver = helium.start_chrome(headless=False, options=chrome_options)
 
 # Initialize tools
-
 
 @tool
 def search_item_ctrl_f(text: str, nth_result: int = 1) -> str:
@@ -191,19 +185,12 @@ But beware that the screenshot will only be taken at the end of the whole action
 Don't kill the browser.
 """
 
-github_request = """
-I'm trying to find how hard I have to work to get a repo in github.com/trending.
-Can you navigate to the profile for the top author of the top trending repo, and give me their total number of commits over the last year?
-""" 
-
 search_request = """
 Find flights from New York to San Francisco on 2025-02-01. Give me the cheapest flight.
 """
 
 def agent_runner(prompt: str):
-    def runner():
-        agent.run(prompt + helium_instructions)
-    return runner
+    agent.run(prompt + helium_instructions)
 
 if __name__ == "__main__":
-    agent_runner(search_request)()
+    agent_runner(search_request)
