@@ -22,7 +22,7 @@ def create_app(self, inputs, prompt, runner, _run_immediately):
         if _run_immediately:
             run_triggers.append(app.load)
 
-        @gr.on(triggers=run_triggers, inputs=[prompt_box], outputs=[tabs, results_tab])
+        @gr.on(triggers=run_triggers, inputs=[prompt_box])
         def run_flow(prompt):
             # yield gr.Tabs(selected="flow"), gr.Tab(visible=True)
             runner(prompt)
