@@ -12,12 +12,11 @@ from selenium.webdriver.support.ui import WebDriverWait
 from smolagents import CodeAgent, LiteLLMModel, OpenAIServerModel, TransformersModel, tool  # noqa: F401
 from smolagents.agents import ActionStep
 
-
+agent = None
 model = LiteLLMModel(
     model_id="gpt-4o",
     api_key="",
 )
-
 
 # Prepare callback
 def save_screenshot(step_log: ActionStep, agent: CodeAgent) -> None:
@@ -39,91 +38,102 @@ def save_screenshot(step_log: ActionStep, agent: CodeAgent) -> None:
     return
 
 
-# Initialize driver and agent
-chrome_options = webdriver.ChromeOptions()
-chrome_options.add_argument("--force-device-scale-factor=1")
-chrome_options.add_argument("--window-size=1000,1300")
-chrome_options.add_argument("--disable-pdf-viewer")
-
-driver = helium.start_chrome(headless=False, options=chrome_options)
-
-# Initialize tools
-
-@tool
-def search_item_ctrl_f(text: str, nth_result: int = 1) -> str:
-    """
-    Searches for text on the current page via Ctrl + F and jumps to the nth occurrence.
-    Args:
-        text: The text to search for
-        nth_result: Which occurrence to jump to (default: 1)
-    """
-    elements = driver.find_elements(By.XPATH, f"//*[contains(text(), '{text}')]")
-    if nth_result > len(elements):
-        raise Exception(f"Match n°{nth_result} not found (only {len(elements)} matches found)")
-    result = f"Found {len(elements)} matches for '{text}'."
-    elem = elements[nth_result - 1]
-    driver.execute_script("arguments[0].scrollIntoView(true);", elem)
-    result += f"Focused on element {nth_result} of {len(elements)}"
-    return result
+def create_search_item_ctrl_f(driver):
+    @tool
+    def search_item_ctrl_f(text: str, nth_result: int = 1) -> str:
+        """
+        Searches for text on the current page via Ctrl + F and jumps to the nth occurrence.
+        Args:
+            text: The text to search for
+            nth_result: Which occurrence to jump to (default: 1)
+        """
+        elements = driver.find_elements(By.XPATH, f"//*[contains(text(), '{text}')]")
+        if nth_result > len(elements):
+            raise Exception(f"Match n°{nth_result} not found (only {len(elements)} matches found)")
+        result = f"Found {len(elements)} matches for '{text}'."
+        elem = elements[nth_result - 1]
+        driver.execute_script("arguments[0].scrollIntoView(true);", elem)
+        result += f"Focused on element {nth_result} of {len(elements)}"
+        return result
+    return search_item_ctrl_f
 
 
-@tool
-def go_back() -> None:
-    """Goes back to previous page."""
-    driver.back()
+def create_go_back(driver):
+    @tool
+    def go_back() -> None:
+        """Goes back to previous page."""
+        driver.back()
+    return go_back
 
 
-@tool
-def close_popups() -> str:
-    """
-    Closes any visible modal or pop-up on the page. Use this to dismiss pop-up windows! This does not work on cookie consent banners.
-    """
-    # Common selectors for modal close buttons and overlay elements
-    modal_selectors = [
-        "button[class*='close']",
-        "[class*='modal']",
-        "[class*='modal'] button",
-        "[class*='CloseButton']",
-        "[aria-label*='close']",
-        ".modal-close",
-        ".close-modal",
-        ".modal .close",
-        ".modal-backdrop",
-        ".modal-overlay",
-        "[class*='overlay']",
-    ]
+def create_close_popups(driver):
+    @tool
+    def close_popups() -> str:
+        """
+        Closes any visible modal or pop-up on the page. Use this to dismiss pop-up windows! This does not work on cookie consent banners.
+        """
+        # Common selectors for modal close buttons and overlay elements
+        modal_selectors = [
+            "button[class*='close']",
+            "[class*='modal']",
+            "[class*='modal'] button",
+            "[class*='CloseButton']",
+            "[aria-label*='close']",
+            ".modal-close",
+            ".close-modal",
+            ".modal .close",
+            ".modal-backdrop",
+            ".modal-overlay",
+            "[class*='overlay']",
+        ]
 
-    wait = WebDriverWait(driver, timeout=0.5)
+        wait = WebDriverWait(driver, timeout=0.5)
 
-    for selector in modal_selectors:
-        try:
-            elements = wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, selector)))
+        for selector in modal_selectors:
+            try:
+                elements = wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, selector)))
 
-            for element in elements:
-                if element.is_displayed():
-                    try:
-                        # Try clicking with JavaScript as it's more reliable
-                        driver.execute_script("arguments[0].click();", element)
-                    except ElementNotInteractableException:
-                        # If JavaScript click fails, try regular click
-                        element.click()
+                for element in elements:
+                    if element.is_displayed():
+                        try:
+                            driver.execute_script("arguments[0].click();", element)
+                        except ElementNotInteractableException:
+                            element.click()
 
-        except TimeoutException:
-            continue
-        except Exception as e:
-            print(f"Error handling selector {selector}: {str(e)}")
-            continue
-    return "Modals closed"
+            except TimeoutException:
+                continue
+            except Exception as e:
+                print(f"Error handling selector {selector}: {str(e)}")
+                continue
+        return "Modals closed"
+    return close_popups
 
 
-agent = CodeAgent(
-    tools=[go_back, close_popups, search_item_ctrl_f],
-    model=model,
-    additional_authorized_imports=["helium"],
-    step_callbacks=[save_screenshot],
-    max_steps=20,
-    verbosity_level=2,
-)
+def create_agent() -> CodeAgent:
+    """Creates and returns a configured CodeAgent instance with initialized Chrome driver."""
+    # Initialize driver
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument("--force-device-scale-factor=1")
+    chrome_options.add_argument("--window-size=1000,1300")
+    chrome_options.add_argument("--disable-pdf-viewer")
+
+    driver = helium.start_chrome(headless=False, options=chrome_options)
+
+    # Create tool instances with the driver
+    go_back = create_go_back(driver)
+    close_popups = create_close_popups(driver)
+    search_item = create_search_item_ctrl_f(driver)
+
+    agent = CodeAgent(
+        tools=[go_back, close_popups, search_item],
+        model=model,
+        additional_authorized_imports=["helium"],
+        step_callbacks=[save_screenshot],
+        max_steps=20,
+        verbosity_level=2,
+    )
+    
+    return agent
 
 helium_instructions = """
 You can use helium to access websites. Don't bother about the helium driver, it's already managed.
@@ -190,6 +200,9 @@ Find flights from New York to San Francisco on 2025-02-01. Give me the cheapest 
 """
 
 def agent_runner(prompt: str):
+    global agent
+    if agent is None:
+        agent = create_agent()
     agent.run(prompt + helium_instructions)
 
 if __name__ == "__main__":

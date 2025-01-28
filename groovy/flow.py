@@ -21,16 +21,13 @@ class Flow:
             prompt_box = gr.Textbox(label="Prompt", value=self.prompt)
             run_button = gr.Button("Run", variant="primary")
 
-            @gr.on(triggers=[self.app.load] + [input.change for input in self.inputs], inputs=self.inputs, outputs=[prompt_box])
+            @gr.on(triggers=[self.app.load] + [input.change for input in self.inputs], inputs=self.inputs, outputs=[prompt_box], trigger_mode="always_last")
             def construct_prompt(*input_values):
                 return self.prompt.format(*input_values)
             
             @gr.on(triggers=[run_button.click], inputs=[prompt_box])
             def run_flow(prompt):
-                print(">>>>", prompt)
                 self.runner(prompt)
-
-            run_button.click(fn=run_flow)
 
     def launch(self):
         _, self.url, _ = self.app.launch(prevent_thread_lock=True, inline=False, inbrowser=True)
