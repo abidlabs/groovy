@@ -200,8 +200,10 @@ search_request = """
 Find flights from New York to San Francisco on 2025-02-01. Give me the cheapest flight.
 """
 
-def run_agent(prompt):
-    agent.run(prompt + helium_instructions)
+def agent_runner(prompt: str):
+    def runner():
+        agent.run(prompt + helium_instructions)
+    return runner
 
 if __name__ == "__main__":
-    run_agent(search_request)
+    agent_runner(search_request)()
