@@ -1,7 +1,9 @@
+import os
 from io import BytesIO
 from time import sleep
 
 import helium
+from dotenv import load_dotenv
 from PIL import Image
 from selenium import webdriver
 from selenium.common.exceptions import ElementNotInteractableException, TimeoutException
@@ -12,10 +14,14 @@ from selenium.webdriver.support.ui import WebDriverWait
 from smolagents import CodeAgent, LiteLLMModel, OpenAIServerModel, TransformersModel, tool  # noqa: F401
 from smolagents.agents import ActionStep
 
+load_dotenv()
+
+api_key = os.getenv("OPENAI_API_KEY")
+
 agent = None
 model = LiteLLMModel(
     model_id="gpt-4o",
-    api_key="",
+    api_key=api_key,
 )
 
 # Prepare callback
@@ -200,6 +206,9 @@ Find flights from New York to San Francisco on 2025-02-01. Give me the cheapest 
 """
 
 def agent_runner(prompt: str):
+    if not api_key:
+        raise ValueError("OPENAI_API_KEY environment variable is not set")
+
     global agent
     if agent is None:
         agent = create_agent()
