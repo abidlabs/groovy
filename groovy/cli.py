@@ -4,10 +4,7 @@ from groovy.flow import Flow
 
 
 def run_default_flow(prompt: str) -> None:
-    flow = Flow(
-        fn=agent_runner(prompt),
-        inputs=[],
-    )
+    flow = Flow(prompt)
     flow.launch()
 
 
