@@ -4,6 +4,7 @@ import groovy
 
 FAILED_VALIDATION_ERR_MESSAGE = "failed validation"
 
+
 @pytest.mark.asyncio
 @pytest.mark.parametrize(
     "url",
@@ -38,14 +39,19 @@ async def test_public_urls_pass(url):
 @pytest.mark.asyncio
 async def test_domain_whitelist():
     try:
-        await groovy.get("http://192.168.1.250.nip.io", domain_whitelist=["192.168.1.250.nip.io"])
+        await groovy.get(
+            "http://192.168.1.250.nip.io", domain_whitelist=["192.168.1.250.nip.io"]
+        )
     except ValueError as e:
         assert FAILED_VALIDATION_ERR_MESSAGE not in str(e)
     except Exception:
-        pass # Other exeptions (e.g. connection timeouts) are fine
+        pass  # Other exeptions (e.g. connection timeouts) are fine
 
     with pytest.raises(ValueError, match=FAILED_VALIDATION_ERR_MESSAGE):
-        await groovy.get("http://192.168.1.250.nip.io", domain_whitelist=["huggingface.co"])
+        await groovy.get(
+            "http://192.168.1.250.nip.io", domain_whitelist=["huggingface.co"]
+        )
+
 
 @pytest.mark.asyncio
 async def test_transport_false():
@@ -54,4 +60,4 @@ async def test_transport_false():
     except ValueError as e:
         assert FAILED_VALIDATION_ERR_MESSAGE not in str(e)
     except Exception:
-        pass # Other exeptions (e.g. connection timeouts) are fine
+        pass  # Other exeptions (e.g. connection timeouts) are fine

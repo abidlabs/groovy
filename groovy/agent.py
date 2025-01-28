@@ -24,23 +24,35 @@ model = LiteLLMModel(
     api_key=api_key,
 )
 
+
 # Prepare callback
 def save_screenshot(step_log: ActionStep, agent: CodeAgent) -> None:
     sleep(1.0)  # Let JavaScript animations happen before taking the screenshot
     driver = helium.get_driver()
     current_step = step_log.step_number
     if driver is not None:
-        for step_logs in agent.logs:  # Remove previous screenshots from logs for lean processing
-            if isinstance(step_log, ActionStep) and step_log.step_number <= current_step - 2:
+        for (
+            step_logs
+        ) in agent.logs:  # Remove previous screenshots from logs for lean processing
+            if (
+                isinstance(step_log, ActionStep)
+                and step_log.step_number <= current_step - 2
+            ):
                 step_logs.observations_images = None
         png_bytes = driver.get_screenshot_as_png()
         image = Image.open(BytesIO(png_bytes))
         print(f"Captured a browser screenshot: {image.size} pixels")
-        step_log.observations_images = [image.copy()]  # Create a copy to ensure it persists, important!
+        step_log.observations_images = [
+            image.copy()
+        ]  # Create a copy to ensure it persists, important!
 
     # Update observations with current URL
     url_info = f"Current url: {driver.current_url}"
-    step_log.observations = url_info if step_logs.observations is None else step_log.observations + "\n" + url_info
+    step_log.observations = (
+        url_info
+        if step_logs.observations is None
+        else step_log.observations + "\n" + url_info
+    )
     return
 
 
@@ -55,12 +67,15 @@ def create_search_item_ctrl_f(driver):
         """
         elements = driver.find_elements(By.XPATH, f"//*[contains(text(), '{text}')]")
         if nth_result > len(elements):
-            raise Exception(f"Match n°{nth_result} not found (only {len(elements)} matches found)")
+            raise Exception(
+                f"Match n°{nth_result} not found (only {len(elements)} matches found)"
+            )
         result = f"Found {len(elements)} matches for '{text}'."
         elem = elements[nth_result - 1]
         driver.execute_script("arguments[0].scrollIntoView(true);", elem)
         result += f"Focused on element {nth_result} of {len(elements)}"
         return result
+
     return search_item_ctrl_f
 
 
@@ -69,6 +84,7 @@ def create_go_back(driver):
     def go_back() -> None:
         """Goes back to previous page."""
         driver.back()
+
     return go_back
 
 
@@ -97,7 +113,9 @@ def create_close_popups(driver):
 
         for selector in modal_selectors:
             try:
-                elements = wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, selector)))
+                elements = wait.until(
+                    EC.presence_of_all_elements_located((By.CSS_SELECTOR, selector))
+                )
 
                 for element in elements:
                     if element.is_displayed():
@@ -112,13 +130,13 @@ def create_close_popups(driver):
                 print(f"Error handling selector {selector}: {str(e)}")
                 continue
         return "Modals closed"
+
     return close_popups
+
 
 def step_callback(step_log: ActionStep, agent: CodeAgent) -> None:
     return step_log.llm_output.strip()
 
-def print_step(step_log: ActionStep, agent: CodeAgent) -> None:
-    print("11111111111>>>>>>", step_log)
 
 def create_agent() -> CodeAgent:
     """Creates and returns a configured CodeAgent instance with initialized Chrome driver."""
@@ -139,12 +157,13 @@ def create_agent() -> CodeAgent:
         tools=[go_back, close_popups, search_item],
         model=model,
         additional_authorized_imports=["helium"],
-        step_callbacks=[save_screenshot, print_step, step_callback],
+        step_callbacks=[save_screenshot, step_callback],
         max_steps=20,
-        verbosity_level=2,
+        verbosity_level=0,
     )
-    
+
     return agent
+
 
 helium_instructions = """
 You can use helium to access websites. Don't bother about the helium driver, it's already managed.
@@ -210,6 +229,7 @@ search_request = """
 Find flights from New York to San Francisco on 2025-02-01. Give me the cheapest flight.
 """
 
+
 def agent_streamer(prompt: str):
     if not api_key:
         raise ValueError("OPENAI_API_KEY environment variable is not set")
@@ -217,8 +237,9 @@ def agent_streamer(prompt: str):
     global agent
     if agent is None:
         agent = create_agent()
-    for step in agent.run(prompt + helium_instructions):
-        yield str(step)
+    for step in agent.run(prompt + helium_instructions, stream=True):
+        yield str(step.llm_output.strip())
+
 
 if __name__ == "__main__":
     agent_streamer(search_request)
