@@ -1,15 +1,14 @@
-from langchain_openai import ChatOpenAI
-from browser_use import Agent
-import asyncio
+import gradio as gr
 
-def run(prompt: str):
+from typing import Callable, Sequence
 
-    async def run_agent():
-        agent = Agent(
-            task=prompt,
-            llm=ChatOpenAI(model="gpt-4o"),
-        )
-        result = await agent.run()
-        return result
+class Train:
+    def __init__(
+            self, 
+            fn: Callable,
+            inputs: Sequence[gr.Component],
+    ):
+        self.fn = fn
+        self.inputs = inputs
 
-    return asyncio.run(run_agent())
+    

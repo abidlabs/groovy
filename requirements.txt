@@ -1,2 +1,3 @@
-browser-use
-gradio
+smolagents
+helium
+selenium
