@@ -23,7 +23,7 @@ def publish():
         "Name of the variable containing your Flow instance (e.g., 'my_flow' if you have 'my_flow = Flow()')",
         default="flow"
     )
-    publish_all = click.confirm(f"Publish entire directory? (If no, only app.py, README.md, and {flow_path} will be published)", default=False)
+    publish_all = click.confirm(f"Publish entire directory? (If no, only app.py, README.md, requirements.txt, and {flow_path} will be published)", default=False)
 
     # Convert relative path to module path
     module_path = flow_path.replace("/", ".").replace("\\", ".").rstrip(".py")
