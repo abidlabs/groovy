@@ -1,7 +1,0 @@
-smolagents
-helium
-selenium
-python-dotenv
-click
-huggingface-hub
-gradio

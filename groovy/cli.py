@@ -33,9 +33,13 @@ def publish():
 from {module_path} import {flow_name}
 
 with gr.Blocks() as app:
-    for component in {flow_name}.inputs:
-        component.interactive = True
-        component.render()
+    gr.Textbox(label="🕺 Groovy Flow", value="{flow_name}.task")
+    with gr.Row():
+        for component in {flow_name}.inputs:
+            component.interactive = True
+            component.render()
+    with gr.Row(scale=5):
+        gr.Image()
 
 if __name__ == "__main__":
     app.launch()
@@ -84,7 +88,7 @@ if __name__ == "__main__":
     requirements_path = "requirements.txt"
     if not os.path.exists(requirements_path):
         with open(requirements_path, "w") as f:
-            f.write("groovy\n")
+            f.write("groovy\nhelium\n")
     
     if publish_all:
         hf_api.upload_folder(
