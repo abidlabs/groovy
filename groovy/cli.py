@@ -44,7 +44,7 @@ with gr.Blocks() as app:
     @gr.on(
         triggers=[app.load] + [input.change for input in {flow_name}.inputs],
         inputs={flow_name}.inputs,
-        outputs=[prompt_box],
+        outputs=[task_box],
         trigger_mode="always_last",
     )
     def construct_prompt(*input_values):
