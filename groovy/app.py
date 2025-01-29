@@ -55,9 +55,9 @@ def create_app(self, inputs, prompt, streamer, run_immediately, save_recording):
 
         def run_flow_ui_changes():
             return {
-                run_button: gr.Button(visible=False),
+                run_button: gr.Button(value="Running...", interactive=False),
                 chat_log: gr.Chatbot(visible=True),
-                stop_button: gr.Button(visible=True),
+                # stop_button: gr.Button(visible=False),
                 inputs_accordion: gr.Accordion(open=False),
             }
 

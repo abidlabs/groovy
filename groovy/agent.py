@@ -31,8 +31,8 @@ def take_screenshot(current_step: ActionStep, agent: CodeAgent) -> Image.Image:
     Returns:
         Image.Image: PIL Image object containing the screenshot
     """
-    sleep(0.5)
-    driver = helium.get_driver()
+    sleep(1.0)
+    driver = agent.driver
 
     for step in agent.logs:  # Remove previous screenshots from logs for lean processing
         if (
@@ -62,7 +62,7 @@ def search_item_ctrl_f(text: str, nth_result: int = 1) -> str:
         text: The text to search for
         nth_result: Which occurrence to jump to (default: 1)
     """
-    driver = helium.get_driver()
+    driver = agent.driver
     elements = driver.find_elements(By.XPATH, f"//*[contains(text(), '{text}')]")
     if nth_result > len(elements):
         raise Exception(
@@ -78,7 +78,7 @@ def search_item_ctrl_f(text: str, nth_result: int = 1) -> str:
 @tool
 def go_back() -> None:
     """Goes back to previous page."""
-    driver = helium.get_driver()
+    driver = agent.driver
     driver.back()
 
 
@@ -101,7 +101,7 @@ def close_popups() -> str:
         ".modal-overlay",
         "[class*='overlay']",
     ]
-    driver = helium.get_driver()
+    driver = agent.driver
     wait = WebDriverWait(driver, timeout=0.5)
 
     for selector in modal_selectors:
@@ -136,7 +136,7 @@ def create_agent() -> CodeAgent:
     chrome_options.add_argument("--disable-pdf-viewer")
     chrome_options.add_argument("--window-position=550,0")
 
-    helium.start_chrome(headless=False, options=chrome_options)
+    driver = helium.start_chrome(headless=False, options=chrome_options)
 
     agent = CodeAgent(
         tools=[go_back, close_popups, search_item_ctrl_f],
@@ -145,7 +145,7 @@ def create_agent() -> CodeAgent:
         max_steps=20,
         verbosity_level=0,
     )
-
+    agent.driver = driver  # Store the driver instance in the agent
     return agent
 
 
