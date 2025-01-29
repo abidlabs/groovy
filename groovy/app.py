@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 
 import gradio as gr
 from PIL import ImageDraw, ImageFont
@@ -50,7 +51,7 @@ theme = gr.themes.Base(
 )
 
 
-def create_app(self, inputs, prompt, streamer, run_immediately, artifacts_dir):
+def create_app(self, inputs, prompt, streamer, run_immediately, save_recording):
     with gr.Blocks(theme=theme) as app:
         for input in inputs:
             input.render()
@@ -109,8 +110,8 @@ def create_app(self, inputs, prompt, streamer, run_immediately, artifacts_dir):
                     img_with_text = add_step_counter(step, len(images_for_gif) + 1)
                     images_for_gif.append(img_with_text)
 
-                    if len(images_for_gif) > 0:
-                        gif_path = os.path.join(artifacts_dir, "recording.gif")
+                    if len(images_for_gif) > 0 and save_recording:
+                        gif_path = Path.cwd() / "recording.gif"
                         images_for_gif[0].save(
                             gif_path,
                             save_all=True,

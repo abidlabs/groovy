@@ -53,6 +53,7 @@ with gr.Blocks() as app:
                     component.render()
         with gr.Column(scale=2):
             gr.Image(label="Recording", value="{image_path}")
+            config = gr.JSON(visible=False)
 
     @gr.on(
         triggers=[app.load] + [input.change for input in {flow_name}.inputs],
@@ -64,7 +65,7 @@ with gr.Blocks() as app:
     def construct_prompt(*input_values):
         return {flow_name}.task.format(*input_values)
 
-    gr.api(lambda : {flow_name}.to_json(), api_name="flow_config")
+    app.load({flow_name}.to_json, None, config, api_name="flow_config")
 
 
 if __name__ == "__main__":
