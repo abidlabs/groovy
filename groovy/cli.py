@@ -16,10 +16,11 @@ def cli():
 def publish():
     """Publish a Groovy flow as a Gradio app"""
     click.echo(
-        "This will create a new app.py file in the current directory and publish the entire current directory to Hugging Face Spaces\n"
+        "This will create a new app.py file in the current directory and publish to Hugging Face Spaces\n"
     )
     flow_path = click.prompt("Path to flow file in current directory", default="flow.py")
     flow_name = click.prompt("Name of Flow object in flow file", default="flow")
+    publish_all = click.confirm("Publish entire directory? (If no, only app.py and flow file will be published)", default=False)
 
     # Convert relative path to module path
     module_path = flow_path.replace("/", ".").replace("\\", ".").rstrip(".py")
@@ -72,7 +73,7 @@ if __name__ == "__main__":
     }
     huggingface_hub.metadata_save(readme_file, configuration)
     
-    # Create and upload to space
+    # Create space
     space_id = huggingface_hub.create_repo(
         configuration["title"],
         space_sdk="gradio",
@@ -81,11 +82,23 @@ if __name__ == "__main__":
         space_hardware=configuration["hardware"],
     ).repo_id
     
-    hf_api.upload_folder(
-        repo_id=space_id,
-        repo_type="space",
-        folder_path=repo_directory,
-    )
+    if publish_all:
+        # Upload entire directory
+        hf_api.upload_folder(
+            repo_id=space_id,
+            repo_type="space",
+            folder_path=repo_directory,
+        )
+    else:
+        # Upload only necessary files
+        files_to_upload = ["app.py", flow_path, "README.md"]
+        for file in files_to_upload:
+            hf_api.upload_file(
+                repo_id=space_id,
+                repo_type="space",
+                path_in_repo=file,
+                path_or_fileobj=os.path.join(repo_directory, file),
+            )
     
     click.echo(f"\n🚀 Space published at https://huggingface.co/spaces/{space_id}")
 
