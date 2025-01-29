@@ -5,6 +5,7 @@ from time import sleep
 import helium
 from dotenv import load_dotenv
 from PIL import Image
+from screeninfo import get_monitors
 from selenium import webdriver
 from selenium.common.exceptions import ElementNotInteractableException, TimeoutException
 from selenium.webdriver.common.by import By
@@ -126,10 +127,14 @@ def close_popups() -> str:
 
 def create_agent() -> CodeAgent:
     """Creates and returns a configured CodeAgent with initialized Chrome driver."""
+    primary_monitor = get_monitors()[0]
+    screen_height = primary_monitor.height
+    screen_width = primary_monitor.width
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument("--force-device-scale-factor=1")
-    chrome_options.add_argument("--window-size=1000,1300")
+    chrome_options.add_argument(f"--window-size={screen_width-550},{screen_height}")
     chrome_options.add_argument("--disable-pdf-viewer")
+    chrome_options.add_argument("--window-position=550,0")
 
     helium.start_chrome(headless=False, options=chrome_options)
 

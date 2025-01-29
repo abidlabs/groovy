@@ -68,7 +68,7 @@ def create_app(self, inputs, prompt, streamer, run_immediately, save_recording):
 
         with gr.Group():
                 prompt_box = gr.Textbox(
-                    label="🕺 Final Task", value=prompt
+                    label="🕺 Constructed Task", value=prompt
                 )
                 with gr.Row():
                     run_button = gr.Button("Start Flow", variant="primary")

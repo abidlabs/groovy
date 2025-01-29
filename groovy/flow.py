@@ -1,8 +1,10 @@
-import os
+import time
 from collections.abc import Generator
 from typing import Callable, Sequence, Union
 
 import gradio as gr
+
+from groovy.utils import open_positioned_browser
 
 
 class Flow:
@@ -61,7 +63,10 @@ class Flow:
             run_immediately,
             self.save_recording,
         )
-        _, self.url, _ = self.app.launch(inline=False, inbrowser=True)
+        _, self.url, _ = self.app.launch(inline=False, inbrowser=False, prevent_thread_lock=True)
+        open_positioned_browser(self.url, width=500)
+        while 1:
+            time.sleep(0.001)
         return self.url
 
     def to_json(self) -> dict:
