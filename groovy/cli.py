@@ -1,10 +1,11 @@
 import os
 import re
-from pathlib import Path
+from urllib.parse import urlparse
 
 import click
 import gradio as gr
 import huggingface_hub
+from gradio_client import Client
 
 import groovy as gv
 
@@ -63,8 +64,8 @@ with gr.Blocks() as app:
     def construct_prompt(*input_values):
         return {flow_name}.task.format(*input_values)
 
-    gr.api({flow_name}.to_json, api_name="flow_config")
-                
+    gr.api(lambda : {flow_name}.to_json(), api_name="flow_config")
+
 
 if __name__ == "__main__":
     app.launch()
@@ -153,25 +154,45 @@ def format_title(title: str):
     return title
 
 
-def download_and_run_flow(user_name: str, space_name: str):
-    hf_api = huggingface_hub.HfApi()
-    hf_api.hf_hub_download(
-        repo_id=f"{user_name}/{space_name}",
-        repo_type="space",
-        local_dir=Path.cwd() / space_name,
-        filename="config.json",
-    )
+def resolve_space_url_to_id(space_url: str) -> str:
+    """
+    Resolves a Hugging Face space URL to its space ID.
 
-    return
+    Parameters:
+        space_url (str): The URL of the Hugging Face space
+            e.g., 'https://huggingface.co/spaces/abidlabs/examples'
+    Returns:
+        str: The space ID in the format 'owner/space_name'
+            e.g., 'abidlabs/examples'
+    Raises:
+        ValueError: If the URL is not a valid Hugging Face space URL
+        ConnectionError: If there are issues connecting to the Hugging Face API
+    """
+    parsed_url = urlparse(space_url)
+    if parsed_url.netloc not in ["huggingface.co", "www.huggingface.co"]:
+        raise ValueError("Not a valid Hugging Face Space URL")
+    path_parts = parsed_url.path.strip("/").split("/")
+    if len(path_parts) < 3 or path_parts[0] != "spaces":
+        raise ValueError("Not a valid Hugging Face Space URL")
+    owner = path_parts[1]
+    space_name = path_parts[2]
+    return f"{owner}/{space_name}"
+
+
+def load_flow_from_space(space_url: str):
+    space_id = resolve_space_url_to_id(space_url)
+    client = Client(space_id)
+    config = client.predict(api_name="/flow_config")
+    return gv.Flow.from_json(config)
 
 
 @cli.command()
 @click.argument("task")
 def run(task: str):
     """Launch a Groovy flow with the specified task as a string, or a URL to a Groovy Space"""
-    if task.startswith("https://huggingface.co/spaces/"):
-        user_name, space_name = task.split("/")[-2:]
-        download_and_run_flow(user_name, space_name)
+    if task.startswith(("https://", "http://")):
+        flow = load_flow_from_space(task)
+        flow.launch(run_immediately=False)  # For security, don't run immediately
     else:
         flow = gv.Flow(task)
         flow.launch(run_immediately=True)
