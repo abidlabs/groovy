@@ -2,12 +2,19 @@ import gradio as gr
 
 
 def create_app(self, inputs, prompt, streamer, _run_immediately):
-    with gr.Blocks() as app:
+    with gr.Blocks(theme=gr.themes.Base()) as app:
         for input in inputs:
             input.render()
 
         prompt_box = gr.Textbox(label="Prompt", value=prompt)
         run_button = gr.Button("Run", variant="primary")
+
+        chat_log = gr.Chatbot(
+            label="Log",
+            type="messages",
+            group_consecutive_messages=False,
+            visible=False,
+        )
 
         @gr.on(
             triggers=[app.load] + [input.change for input in inputs],
@@ -18,13 +25,6 @@ def create_app(self, inputs, prompt, streamer, _run_immediately):
         def construct_prompt(*input_values):
             return prompt.format(*input_values)
 
-        chat_log = gr.Chatbot(
-            label="Log",
-            type="messages",
-            group_consecutive_messages=False,
-            visible=False,
-        )
-
         run_triggers = [run_button.click]
         if _run_immediately:
             run_triggers.append(app.load)
@@ -32,11 +32,17 @@ def create_app(self, inputs, prompt, streamer, _run_immediately):
         @gr.on(
             triggers=run_triggers,
             inputs=[prompt_box],
-            outputs=[run_button, results_tab],
+            outputs=[run_button, chat_log],
         )
         def run_flow(prompt):
-            yield {run_button: gr.Button(visible=False)}
-            log = []
+            yield {
+                run_button: gr.Button(visible=False), 
+                chat_log: gr.Chatbot(visible=True)
+            }
+
+            log = [gr.ChatMessage(content=prompt, role="user")]
+            yield {chat_log: log}
+
             for step in streamer(prompt):
                 if isinstance(step, str):
                     log.append(gr.ChatMessage(content=step, role="assistant"))
