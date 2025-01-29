@@ -19,8 +19,11 @@ def publish():
         "This will create a new app.py file in the current directory and publish to Hugging Face Spaces\n"
     )
     flow_path = click.prompt("Path to flow file in current directory", default="flow.py")
-    flow_name = click.prompt("Name of Flow object in flow file", default="flow")
-    publish_all = click.confirm("Publish entire directory? (If no, only app.py and flow file will be published)", default=False)
+    flow_name = click.prompt(
+        "Name of the variable containing your Flow instance (e.g., 'my_flow' if you have 'my_flow = Flow()')",
+        default="flow"
+    )
+    publish_all = click.confirm(f"Publish entire directory? (If no, only app.py, README.md, and {flow_path} will be published)", default=False)
 
     # Convert relative path to module path
     module_path = flow_path.replace("/", ".").replace("\\", ".").rstrip(".py")
@@ -41,7 +44,6 @@ if __name__ == "__main__":
     with open("app.py", "w") as f:
         f.write(app_content)
 
-    click.echo(f"✨ Created app.py with {flow_name} from {flow_path}")
     
     # Deploy to Hugging Face Spaces
     repo_directory = os.getcwd()
@@ -62,6 +64,7 @@ if __name__ == "__main__":
     title = click.prompt("Enter Spaces app title", default=dir_name)
     title = format_title(title)
     
+    click.echo(f"\n✨ Created app.py with `{flow_name}` from `{flow_path}`. Publishing...")
     # Create/update README with metadata
     readme_file = os.path.join(repo_directory, "README.md")
     configuration = {
