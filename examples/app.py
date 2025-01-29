@@ -3,7 +3,7 @@ import groovy as gv
 from flow import flow
 
 with gr.Blocks() as app:
-    task_box = gr.Textbox(label="🕺 Task", value="flow.task")
+    task_box = gr.Textbox(label="🕺 Task", value="flow.task", info="Run this workflow locally by installing the [Groovy Python package](https://github.com/abidlabs/groovy) and then running `groovy run https://huggingface.co/space/url>`.")
     with gr.Row():
         if flow.inputs:
             with gr.Column(scale=1):
