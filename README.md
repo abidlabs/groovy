@@ -1,2 +1,81 @@
 # 🕺 Groovy
 
+Groovy is a Python library that makes it easy to create, run and share browser automation workflows. Whether you want to quickly scrape some data, automate a repetitive task, or build an interactive demo - Groovy has you covered.
+
+## Why Groovy?
+
+- **Run quick browser automations** with a single line of code
+- **Create interactive demos** with customizable UI components
+- **Share workflows easily** via Hugging Face Spaces
+- **Reuse existing workflows** from the community
+
+## Installation
+
+```bash
+pip install groovy
+```
+
+## Key Features
+
+### 1. One-Line Browser Automation
+
+Run instant browser automations with a single command. No need for complex setup or boilerplate code:
+
+```python
+groovy run "find upcoming events in san francisco related to board games"
+```
+
+### 2. Build Interactive Apps with Flows
+
+Turn your automation tasks into full-fledged applications using the `Flow` class. Flows let you create interactive interfaces with Gradio components:
+
+```python
+from groovy import Flow
+import gradio as gr
+
+# Create a Flow with custom input components
+flow = Flow(
+    task="Search for {query} in {location}",
+    inputs=[
+        gr.Textbox(label="Search Query"),
+        gr.Textbox(label="Location", value="San Francisco")
+    ]
+)
+
+# Launch the interactive interface
+flow.launch()
+```
+
+### 3. Easy Sharing via Hugging Face Spaces
+
+Share your automation workflows with others by publishing to Hugging Face Spaces. Just navigate to your project folder and run:
+
+```bash
+groovy publish
+```
+
+This will create a public URL where others can access and use your automation.
+
+### 4. Use Community Workflows
+
+Take advantage of existing workflows created by the community. Run any published workflow directly, e.g. :
+
+```bash
+groovy run https://huggingface.co/spaces/abidlabs/Activity_Finder
+```
+
+### Key Flow Features:
+
+- **Format String Support**: Use format strings in tasks to incorporate dynamic input values
+- **Custom UI Components**: Add any Gradio component as input
+- **Stream Functions**: Define custom functions to process and yield responses
+- **Recording**: Save browser automation sessions as GIFs for documentation or sharing
+
+
+## Contributing
+
+Contributions are welcome! Feel free to:
+- Submit bug reports and feature requests
+- Create and share your own workflows
+- Improve documentation and examples
+- Submit pull requests
