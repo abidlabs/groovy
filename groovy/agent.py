@@ -221,7 +221,8 @@ def browser_agent_streamer(prompt: str):
             yield str(step.llm_output.strip())
             yield take_screenshot(step, agent)
         else:
-            yield str(step)
+            yield str(step)  # Return the final answer
+            return
 
 
 if __name__ == "__main__":
