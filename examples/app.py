@@ -1,4 +1,6 @@
 import gradio as gr
+import groovy as gv
+print(gv.__version__)
 from flow import flow
 
 with gr.Blocks() as app:
@@ -10,12 +12,12 @@ with gr.Blocks() as app:
     @gr.on(
         triggers=[app.load] + [input.change for input in flow.inputs],
         inputs=flow.inputs,
-        outputs=[task_box],
+        outputs=[prompt_box],
         trigger_mode="always_last",
     )
-    def construct_task(*input_values):
-        return flow.task.format(*input_values)
-
+    def construct_prompt(*input_values):
+        return prompt.format(*input_values)
+                
     with gr.Row(scale=5):
         gr.Image()
 

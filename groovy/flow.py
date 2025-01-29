@@ -1,11 +1,9 @@
 import os
 from collections.abc import Generator
-from typing import Callable, Sequence, Union
+from typing import TYPE_CHECKING, Callable, Sequence, Union
 
-import gradio as gr
-
-from groovy.agent import browser_agent_streamer
-from groovy.app import create_app
+if TYPE_CHECKING:
+    import gradio as gr
 
 
 class Flow:
@@ -31,6 +29,9 @@ class Flow:
             inputs: The input components whose values will be passed to the task, if it's a format string.
             stream_fn: The generator function that accepts a task string and yields an arbitrary number of `str`, `PIL.Image`, or `gr.ChatMessage` responses. If not provided, the default streamer (which browses the web to complete a task) will be used.
         """
+        # Import here to speed up the import time of the groovy module
+        from groovy.agent import browser_agent_streamer
+
         self.task = task
         self.inputs = inputs or []
         self.stream_fn = stream_fn or browser_agent_streamer
@@ -43,6 +44,9 @@ class Flow:
             artifacts_dir: The directory to save artifacts (screenshots, etc.) to. If None, uses the working directory.
             run_immediately: Whether to run the task immediately at .launch() or whether to wait for the user to click the "Run" button in the Gradio app.
         """
+        # Import here to speed up the import time of the groovy module
+        from groovy.app import create_app
+
         self.artifacts_dir = artifacts_dir or os.getcwd()
         self.app = create_app(
             self,
