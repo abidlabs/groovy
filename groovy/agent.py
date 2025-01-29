@@ -55,6 +55,7 @@ def save_screenshot(step_log: ActionStep, agent: CodeAgent) -> None:
     return
 
 
+@tool
 def search_item_ctrl_f(text: str, nth_result: int = 1) -> str:
     """
     Searches for text on the current page via Ctrl + F and jumps to the nth occurrence.
