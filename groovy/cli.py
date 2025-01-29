@@ -33,11 +33,20 @@ def publish():
 from {module_path} import {flow_name}
 
 with gr.Blocks() as app:
-    gr.Textbox(label="🕺 Groovy Flow", value="{flow_name}.task")
+    task_box = gr.Textbox(label="🕺 Groovy Flow", value="{flow_name}.task")
     with gr.Row():
         for component in {flow_name}.inputs:
-            component.interactive = True
             component.render()
+
+    @gr.on(
+        triggers=[app.load] + [input.change for input in {flow_name}.inputs],
+        inputs={flow_name}.inputs,
+        outputs=[task_box],
+        trigger_mode="always_last",
+    )
+    def construct_task(*input_values):
+        return {flow_name}.task.format(*input_values)
+                
     with gr.Row(scale=5):
         gr.Image()
 
