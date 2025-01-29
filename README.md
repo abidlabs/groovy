@@ -2,6 +2,9 @@
 
 Groovy is a Python library that makes it easy to create, run and share browser automation workflows. Whether you want to quickly scrape some data, automate a repetitive task, or build an interactive demo - Groovy has you covered.
 
+![Screen Recording 2025-01-29 at 1 30 30 AM (online-video-cutter com)](https://github.com/user-attachments/assets/6cb171cd-9a8a-41e2-927c-badf694595d4)
+
+
 ## Why Groovy?
 
 - **Run quick browser automations** with a single line of code
