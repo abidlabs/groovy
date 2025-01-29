@@ -31,6 +31,7 @@ def publish():
     # Create the app.py file
     app_content = f"""import gradio as gr
 import groovy as gv
+
 print(gv.__version__)
 from {module_path} import {flow_name}
 

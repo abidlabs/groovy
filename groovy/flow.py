@@ -1,9 +1,8 @@
 import os
 from collections.abc import Generator
-from typing import TYPE_CHECKING, Callable, Sequence, Union
+from typing import Callable, Sequence, Union
 
-if TYPE_CHECKING:
-    import gradio as gr
+import gradio as gr
 
 
 class Flow:
