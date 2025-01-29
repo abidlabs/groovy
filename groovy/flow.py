@@ -4,7 +4,7 @@ from typing import Callable, Sequence, Union
 
 import gradio as gr
 
-from groovy.utils import open_positioned_browser
+from groovy.browser_utils import open_positioned_browser
 
 
 class Flow:

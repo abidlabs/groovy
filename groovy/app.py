@@ -2,49 +2,9 @@ from pathlib import Path
 
 import gradio as gr
 from gradio.themes.utils import colors
-from PIL import ImageDraw, ImageFont
 from PIL.Image import Image
 
-
-def add_step_counter(image: Image, step_number: int) -> Image:
-    """Add a step counter to the bottom left of an image.
-
-    Args:
-        image: The PIL Image to modify
-        step_number: The step number to display
-
-    Returns:
-        A new Image with the step counter added
-    """
-    img_with_text = image.copy()
-    draw = ImageDraw.Draw(img_with_text)
-
-    font = ImageFont.load_default().font_variant(size=24)
-
-    step_text = f"Step {step_number}"
-    text_bbox = draw.textbbox((0, 0), step_text, font=font)
-    text_width = text_bbox[2] - text_bbox[0]
-    text_height = text_bbox[3] - text_bbox[1]
-
-    padding = 8
-    x = padding
-    y = img_with_text.height - text_height - padding - 2
-
-    draw.rectangle(
-        [
-            0,
-            img_with_text.height - text_height - padding * 2,
-            x + text_width + padding * 2,
-            img_with_text.height,
-        ],
-        fill="#d8b4fe",  # Purple color
-        outline="#d8b4fe",
-    )
-
-    draw.text((x, y), step_text, fill="black", font=font)
-
-    return img_with_text
-
+from groovy.app_utils import add_step_counter
 
 theme = gr.themes.Base(
     primary_hue="purple",
@@ -60,10 +20,9 @@ theme.set(
 
 def create_app(self, inputs, prompt, streamer, run_immediately, save_recording):
     with gr.Blocks(theme=theme) as app:
-        if inputs:
-            with gr.Accordion("Input parameters (used to construct the task)", open=True) as inputs_accordion:
-                for input in inputs:
-                    input.render()
+        with gr.Accordion("Input parameters (used to construct the task)", open=True, visible=bool(inputs)) as inputs_accordion:
+            for input in inputs:
+                input.render()
 
         with gr.Group():
                 prompt_box = gr.Textbox(
@@ -134,6 +93,7 @@ def create_app(self, inputs, prompt, streamer, run_immediately, save_recording):
                     )
                 yield log
 
+        
         gr.on(
             fn=run_flow_ui_changes,
             triggers=run_triggers,
