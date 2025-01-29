@@ -1,4 +1,5 @@
 import gradio as gr
+from PIL.Image import Image
 
 
 def create_app(self, inputs, prompt, streamer, _run_immediately):
@@ -46,6 +47,8 @@ def create_app(self, inputs, prompt, streamer, _run_immediately):
             for step in streamer(prompt):
                 if isinstance(step, str):
                     log.append(gr.ChatMessage(content=step, role="assistant"))
+                elif isinstance(step, Image):
+                    log.append(gr.Image(step))
                 elif isinstance(step, gr.ChatMessage):
                     log.append(step)
                 else:

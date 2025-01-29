@@ -1,4 +1,6 @@
 import os
+import tempfile
+from datetime import datetime
 from io import BytesIO
 from time import sleep
 
@@ -24,35 +26,17 @@ model = LiteLLMModel(
 )
 
 
-# Prepare callback
-def save_screenshot(step_log: ActionStep, agent: CodeAgent) -> None:
-    sleep(1.0)  # Let JavaScript animations happen before taking the screenshot
+def take_screenshot() -> Image.Image:
+    """Captures a screenshot of the current browser window.
+    
+    Returns:
+        Image.Image: PIL Image object containing the screenshot
+    """
+    sleep(0.2)
     driver = helium.get_driver()
-    current_step = step_log.step_number
-    if driver is not None:
-        for (
-            step_logs
-        ) in agent.logs:  # Remove previous screenshots from logs for lean processing
-            if (
-                isinstance(step_log, ActionStep)
-                and step_log.step_number <= current_step - 2
-            ):
-                step_logs.observations_images = None
-        png_bytes = driver.get_screenshot_as_png()
-        image = Image.open(BytesIO(png_bytes))
-        print(f"Captured a browser screenshot: {image.size} pixels")
-        step_log.observations_images = [
-            image.copy()
-        ]  # Create a copy to ensure it persists, important!
-
-    # Update observations with current URL
-    url_info = f"Current url: {driver.current_url}"
-    step_log.observations = (
-        url_info
-        if step_logs.observations is None
-        else step_log.observations + "\n" + url_info
-    )
-    return
+    png_bytes = driver.get_screenshot_as_png()
+    image = Image.open(BytesIO(png_bytes))
+    return image
 
 
 @tool
@@ -126,10 +110,6 @@ def close_popups() -> str:
     return "Modals closed"
 
 
-def step_callback(step_log: ActionStep, agent: CodeAgent) -> None:
-    return step_log.llm_output.strip()
-
-
 def create_agent() -> CodeAgent:
     """Creates and returns a configured CodeAgent with initialized Chrome driver."""
     chrome_options = webdriver.ChromeOptions()
@@ -143,7 +123,6 @@ def create_agent() -> CodeAgent:
         tools=[go_back, close_popups, search_item_ctrl_f],
         model=model,
         additional_authorized_imports=["helium"],
-        step_callbacks=[save_screenshot, step_callback],
         max_steps=20,
         verbosity_level=0,
     )
@@ -224,8 +203,11 @@ def agent_streamer(prompt: str):
     if agent is None:
         agent = create_agent()
     for step in agent.run(prompt + helium_instructions, stream=True):
-        yield str(step.llm_output.strip())
-
+        if isinstance(step, ActionStep):
+            yield str(step.llm_output.strip())
+            yield take_screenshot()
+        else:
+            yield str(step)
 
 if __name__ == "__main__":
     agent_streamer(search_request)
