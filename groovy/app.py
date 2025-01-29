@@ -1,7 +1,58 @@
-import gradio as gr
-from PIL.Image import Image
 import os
 
+from PIL import ImageDraw, ImageFont
+from PIL.Image import Image
+import gradio as gr
+
+
+def add_step_counter(image: Image, step_number: int) -> Image:
+    """Add a step counter to the bottom left of an image.
+    
+    Args:
+        image: The PIL Image to modify
+        step_number: The step number to display
+        
+    Returns:
+        A new Image with the step counter added
+    """
+    img_with_text = image.copy()
+    draw = ImageDraw.Draw(img_with_text)
+    
+    font = ImageFont.load_default().font_variant(size=24)    
+
+    step_text = f"Step {step_number}"
+    text_bbox = draw.textbbox((0, 0), step_text, font=font)
+    text_width = text_bbox[2] - text_bbox[0]
+    text_height = text_bbox[3] - text_bbox[1]
+    
+    padding = 8
+    x = padding
+    y = img_with_text.height - text_height - padding
+    
+    draw.rectangle(
+        [
+            0,
+            img_with_text.height - text_height - padding * 2,
+            x + text_width + padding * 2,
+            img_with_text.height
+        ],
+        fill='#d8b4fe',  # Purple color
+        outline='#d8b4fe'
+    )
+    
+    draw.text(
+        (x, y),
+        step_text,
+        fill='black',
+        font=font
+    )
+    
+    return img_with_text
+
+
+theme = gr.themes.Base(
+    primary_hue="purple",
+)
 
 def create_app(
         self, 
@@ -11,14 +62,15 @@ def create_app(
         run_immediately,
         artifacts_dir
     ):
-    with gr.Blocks() as app:
+    with gr.Blocks(theme=theme) as app:
         for input in inputs:
             input.render()
 
-        with gr.Row():
-            prompt_box = gr.Textbox(label="Prompt", value=prompt, show_label=False)
-            run_button = gr.Button("Run", variant="primary")
-            stop_button = gr.Button("Stop", variant="stop", visible=False)
+        with gr.Group():
+            with gr.Row():
+                prompt_box = gr.Textbox(label="Prompt", value=prompt, show_label=False, scale=4)
+                run_button = gr.Button("Run", variant="primary")
+                stop_button = gr.Button("Stop", variant="stop", visible=False)
 
         chat_log = gr.Chatbot(
             label="Log",
@@ -62,7 +114,10 @@ def create_app(
                     log.append(gr.ChatMessage(content=step, role="assistant"))
                 elif isinstance(step, Image):
                     log.append(gr.ChatMessage(content=gr.Image(step), role="assistant"))
-                    images_for_gif.append(step)
+                    
+                    img_with_text = add_step_counter(step, len(images_for_gif) + 1)
+                    images_for_gif.append(img_with_text)
+                    
                     if len(images_for_gif) > 0:
                         gif_path = os.path.join(artifacts_dir, "recording.gif")
                         images_for_gif[0].save(
