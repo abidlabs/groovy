@@ -35,11 +35,7 @@ class Flow:
         self.inputs = inputs or []
         self.stream_fn = stream_fn or browser_agent_streamer
 
-    def launch(
-            self,
-            artifacts_dir: str | None = None,
-            run_immediately: bool = False
-        ):
+    def launch(self, artifacts_dir: str | None = None, run_immediately: bool = False):
         """
         Launches the flow in a Gradio app.
 
@@ -49,12 +45,12 @@ class Flow:
         """
         self.artifacts_dir = artifacts_dir or os.getcwd()
         self.app = create_app(
-            self, 
-            self.inputs, 
-            self.task, 
-            self.stream_fn, 
+            self,
+            self.inputs,
+            self.task,
+            self.stream_fn,
             run_immediately,
-            self.artifacts_dir
+            self.artifacts_dir,
         )
         _, self.url, _ = self.app.launch(inline=False, inbrowser=True)
         return self.url
