@@ -45,11 +45,9 @@ if __name__ == "__main__":
         f.write(app_content)
 
     
-    # Deploy to Hugging Face Spaces
     repo_directory = os.getcwd()
     dir_name = os.path.basename(repo_directory)
     
-    # Login to Hugging Face
     hf_api = huggingface_hub.HfApi()
     try:
         whoami = hf_api.whoami()
@@ -60,12 +58,10 @@ if __name__ == "__main__":
         click.echo("Need 'write' access token to create a Spaces repo.")
         huggingface_hub.login(add_to_git_credential=False)
     
-    # Get space title
     title = click.prompt("Enter Spaces app title", default=dir_name)
     title = format_title(title)
     
     click.echo(f"\n✨ Created app.py with `{flow_name}` from `{flow_path}`. Publishing...")
-    # Create/update README with metadata
     readme_file = os.path.join(repo_directory, "README.md")
     configuration = {
         "title": title,
@@ -85,16 +81,19 @@ if __name__ == "__main__":
         space_hardware=configuration["hardware"],
     ).repo_id
     
+    requirements_path = "requirements.txt"
+    if not os.path.exists(requirements_path):
+        with open(requirements_path, "w") as f:
+            f.write("groovy\n")
+    
     if publish_all:
-        # Upload entire directory
         hf_api.upload_folder(
             repo_id=space_id,
             repo_type="space",
             folder_path=repo_directory,
         )
     else:
-        # Upload only necessary files
-        files_to_upload = ["app.py", flow_path, "README.md"]
+        files_to_upload = ["app.py", flow_path, "README.md", "requirements.txt"]
         for file in files_to_upload:
             hf_api.upload_file(
                 repo_id=space_id,
