@@ -18,7 +18,7 @@ Groovy is a Python library that makes it easy to create, run and share browser a
 pip install groovy
 ```
 
-You will also need an `OPENAI_API_KEY` (TODO: replace with `HF_TOKEN`)
+You will also need an `OPENAI_API_KEY` in an `.env` file in the working directory where you run the commands below (TODO: replace with `HF_TOKEN`)
 
 ## Key Features
 
