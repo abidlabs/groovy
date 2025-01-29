@@ -57,8 +57,13 @@ def create_app(self, inputs, prompt, streamer, run_immediately, save_recording):
             return {
                 run_button: gr.Button(value="Running...", interactive=False),
                 chat_log: gr.Chatbot(visible=True),
-                # stop_button: gr.Button(visible=False),
                 inputs_accordion: gr.Accordion(open=False),
+            }
+
+        def reset_ui():
+            return {
+                run_button: gr.Button(value="Start Flow", interactive=True),
+                inputs_accordion: gr.Accordion(open=True, visible=bool(inputs)),
             }
 
         def run_flow(prompt):
@@ -102,6 +107,9 @@ def create_app(self, inputs, prompt, streamer, run_immediately, save_recording):
             fn=run_flow,
             inputs=[prompt_box],
             outputs=[chat_log],
+        ).then(
+            fn=reset_ui,
+            outputs=[run_button, stop_button, chat_log, inputs_accordion],
         )
 
     return app
