@@ -142,7 +142,7 @@ if __name__ == "__main__":
                 path_or_fileobj=os.path.join(repo_directory, file),
             )
 
-    click.echo(f"\n🚀 Space published at https://huggingface.co/spaces/{space_id}")
+    click.echo(f"🚀 Space published at https://huggingface.co/spaces/{space_id}")
 
 
 def format_title(title: str):

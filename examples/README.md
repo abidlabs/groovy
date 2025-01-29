@@ -1,5 +1,5 @@
 ---
-title: examples
+title: Activity_Finder
 app_file: app.py
 sdk: gradio
 sdk_version: 5.13.2

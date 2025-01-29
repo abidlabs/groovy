@@ -1,4 +1,5 @@
 import gradio as gr
+import groovy as gv
 from flow import flow
 
 with gr.Blocks() as app:
@@ -17,7 +18,7 @@ with gr.Blocks() as app:
         inputs=flow.inputs,
         outputs=[task_box],
         trigger_mode="always_last",
-        show_api=False,
+        show_api=False
     )
     def construct_prompt(*input_values):
         return flow.task.format(*input_values)
