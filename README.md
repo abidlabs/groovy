@@ -58,7 +58,7 @@ This will create a public URL where others can access and use your automation.
 
 ### 4. Use Community Workflows
 
-Take advantage of existing workflows created by the community. Run any published workflow directly, e.g. :
+Take advantage of existing workflows created by the community. Run any published workflow locally, e.g.:
 
 ```bash
 groovy run https://huggingface.co/spaces/abidlabs/Activity_Finder
