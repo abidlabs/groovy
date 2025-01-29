@@ -24,16 +24,32 @@ model = LiteLLMModel(
 )
 
 
-def take_screenshot() -> Image.Image:
-    """Captures a screenshot of the current browser window.
-    
+def take_screenshot(current_step: ActionStep, agent: CodeAgent) -> Image.Image:
+    """Captures a screenshot of the current browser window,
+
     Returns:
         Image.Image: PIL Image object containing the screenshot
     """
-    sleep(0.2)
+    sleep(0.5)
     driver = helium.get_driver()
+
+    for step in agent.logs:  # Remove previous screenshots from logs for lean processing
+        if (
+            isinstance(step, ActionStep)
+            and step.step_number <= current_step.step_number - 2
+        ):
+            step.observations_images = None
+
     png_bytes = driver.get_screenshot_as_png()
     image = Image.open(BytesIO(png_bytes))
+    current_step.observations_images = [
+        image.copy()
+    ]  # Create a copy to ensure it persists, important!
+
+    url_info = f"Current url: {driver.current_url}"
+    step.observations = (
+        url_info if step.observations is None else step.observations + "\n" + url_info
+    )
     return image
 
 
@@ -180,7 +196,7 @@ Code:
 final_answer("YOUR_ANSWER_HERE")
 ```<end_code>
 
-If pages seem stuck on loading, you might have to wait, for instance `import time` and run `time.sleep(5.0)`. But don't overuse this!
+If pages seem stuck on loading, you might have to wait, for instance `import time` and run `time.sleep(2.0)`. But don't overuse this!
 To list elements on page, DO NOT try code-based element searches like 'contributors = find_all(S("ol > li"))': just look at the latest screenshot you have and read it visually, or use your tool search_item_ctrl_f.
 Of course, you can act on buttons like a user would do when navigating.
 After each code blob you write, you will be automatically provided with an updated screenshot of the browser and the current browser url.
@@ -203,9 +219,10 @@ def browser_agent_streamer(prompt: str):
     for step in agent.run(prompt + helium_instructions, stream=True):
         if isinstance(step, ActionStep):
             yield str(step.llm_output.strip())
-            yield take_screenshot()
+            yield take_screenshot(step, agent)
         else:
             yield str(step)
+
 
 if __name__ == "__main__":
     browser_agent_streamer(search_request)

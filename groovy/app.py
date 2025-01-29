@@ -3,7 +3,7 @@ from PIL.Image import Image
 
 
 def create_app(self, inputs, prompt, streamer, run_immediately):
-    with gr.Blocks(theme=gr.themes.Base()) as app:
+    with gr.Blocks() as app:
         for input in inputs:
             input.render()
 
@@ -39,9 +39,9 @@ def create_app(self, inputs, prompt, streamer, run_immediately):
         )
         def run_flow(prompt):
             yield {
-                run_button: gr.Button(visible=False), 
+                run_button: gr.Button(visible=False),
                 chat_log: gr.Chatbot(visible=True),
-                stop_button: gr.Button(visible=True)
+                stop_button: gr.Button(visible=True),
             }
 
             log = [gr.ChatMessage(content=prompt, role="user")]

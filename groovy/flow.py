@@ -16,6 +16,7 @@ class Flow:
 
     After instantiating a Flow, you can call .launch() to launch the flow in a Gradio app.
     """
+
     def __init__(
         self,
         task: str,
