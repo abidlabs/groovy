@@ -41,11 +41,11 @@ with gr.Blocks() as app:
     @gr.on(
         triggers=[app.load] + [input.change for input in {flow_name}.inputs],
         inputs={flow_name}.inputs,
-        outputs=[task_box],
+        outputs=[prompt_box],
         trigger_mode="always_last",
     )
-    def construct_task(*input_values):
-        return {flow_name}.task.format(*input_values)
+    def construct_prompt(*input_values):
+        return prompt.format(*input_values)
                 
     with gr.Row(scale=5):
         gr.Image()
