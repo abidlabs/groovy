@@ -2,3 +2,4 @@ smolagents
 helium
 selenium
 python-dotenv
+click
