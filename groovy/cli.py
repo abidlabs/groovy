@@ -3,18 +3,18 @@ import sys
 from groovy.flow import Flow
 
 
-def run_default_flow(prompt: str) -> None:
-    flow = Flow(prompt, _run_immediately=True)
-    flow.launch()
+def run_default_flow(task: str) -> None:
+    flow = Flow(task)
+    flow.launch(run_immediately=True)
 
 
 def main():
     if len(sys.argv) < 2:
-        print("Usage: groovy <command>")
+        print("Usage: groovy <task>")
         sys.exit(1)
 
-    prompt = " ".join(sys.argv[1:])
-    result = run_default_flow(prompt)
+    task = " ".join(sys.argv[1:])
+    result = run_default_flow(task)
     print(result)
 
 

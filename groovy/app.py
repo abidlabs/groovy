@@ -2,13 +2,15 @@ import gradio as gr
 from PIL.Image import Image
 
 
-def create_app(self, inputs, prompt, streamer, _run_immediately):
+def create_app(self, inputs, prompt, streamer, run_immediately):
     with gr.Blocks(theme=gr.themes.Base()) as app:
         for input in inputs:
             input.render()
 
-        prompt_box = gr.Textbox(label="Prompt", value=prompt)
-        run_button = gr.Button("Run", variant="primary")
+        with gr.Row():
+            prompt_box = gr.Textbox(label="Prompt", value=prompt, show_label=False)
+            run_button = gr.Button("Run", variant="primary")
+            stop_button = gr.Button("Stop", variant="stop", visible=False)
 
         chat_log = gr.Chatbot(
             label="Log",
@@ -27,18 +29,19 @@ def create_app(self, inputs, prompt, streamer, _run_immediately):
             return prompt.format(*input_values)
 
         run_triggers = [run_button.click]
-        if _run_immediately:
+        if run_immediately:
             run_triggers.append(app.load)
 
         @gr.on(
             triggers=run_triggers,
             inputs=[prompt_box],
-            outputs=[run_button, chat_log],
+            outputs=[run_button, stop_button, chat_log],
         )
         def run_flow(prompt):
             yield {
                 run_button: gr.Button(visible=False), 
-                chat_log: gr.Chatbot(visible=True)
+                chat_log: gr.Chatbot(visible=True),
+                stop_button: gr.Button(visible=True)
             }
 
             log = [gr.ChatMessage(content=prompt, role="user")]
@@ -48,7 +51,7 @@ def create_app(self, inputs, prompt, streamer, _run_immediately):
                 if isinstance(step, str):
                     log.append(gr.ChatMessage(content=step, role="assistant"))
                 elif isinstance(step, Image):
-                    log.append(gr.Image(step))
+                    log.append(gr.ChatMessage(content=gr.Image(step), role="assistant"))
                 elif isinstance(step, gr.ChatMessage):
                     log.append(step)
                 else:

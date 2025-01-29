@@ -1,6 +1,4 @@
 import os
-import tempfile
-from datetime import datetime
 from io import BytesIO
 from time import sleep
 
@@ -195,7 +193,7 @@ Find flights from New York to San Francisco on 2025-02-01. Give me the cheapest 
 """
 
 
-def agent_streamer(prompt: str):
+def browser_agent_streamer(prompt: str):
     if not api_key:
         raise ValueError("OPENAI_API_KEY environment variable is not set")
 
@@ -210,4 +208,4 @@ def agent_streamer(prompt: str):
             yield str(step)
 
 if __name__ == "__main__":
-    agent_streamer(search_request)
+    browser_agent_streamer(search_request)
