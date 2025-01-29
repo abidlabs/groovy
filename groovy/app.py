@@ -1,8 +1,16 @@
 import gradio as gr
 from PIL.Image import Image
+import os
 
 
-def create_app(self, inputs, prompt, streamer, run_immediately):
+def create_app(
+        self, 
+        inputs, 
+        prompt, 
+        streamer, 
+        run_immediately,
+        artifacts_dir
+    ):
     with gr.Blocks() as app:
         for input in inputs:
             input.render()
@@ -47,11 +55,23 @@ def create_app(self, inputs, prompt, streamer, run_immediately):
             log = [gr.ChatMessage(content=prompt, role="user")]
             yield {chat_log: log}
 
+            images_for_gif = []
+
             for step in streamer(prompt):
                 if isinstance(step, str):
                     log.append(gr.ChatMessage(content=step, role="assistant"))
                 elif isinstance(step, Image):
                     log.append(gr.ChatMessage(content=gr.Image(step), role="assistant"))
+                    images_for_gif.append(step)
+                    if len(images_for_gif) > 0:
+                        gif_path = os.path.join(artifacts_dir, "recording.gif")
+                        images_for_gif[0].save(
+                            gif_path,
+                            save_all=True,
+                            append_images=images_for_gif[1:],
+                            duration=500,
+                            loop=0
+                        )
                 elif isinstance(step, gr.ChatMessage):
                     log.append(step)
                 else:

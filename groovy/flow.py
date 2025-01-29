@@ -1,3 +1,4 @@
+import os
 from collections.abc import Generator
 from typing import Callable, Sequence, Union
 
@@ -34,15 +35,26 @@ class Flow:
         self.inputs = inputs or []
         self.stream_fn = stream_fn or browser_agent_streamer
 
-    def launch(self, run_immediately: bool = False):
+    def launch(
+            self,
+            artifacts_dir: str | None = None,
+            run_immediately: bool = False
+        ):
         """
         Launches the flow in a Gradio app.
 
         Parameters:
+            artifacts_dir: The directory to save artifacts (screenshots, etc.) to. If None, uses the working directory.
             run_immediately: Whether to run the task immediately at .launch() or whether to wait for the user to click the "Run" button in the Gradio app.
         """
+        self.artifacts_dir = artifacts_dir or os.getcwd()
         self.app = create_app(
-            self, self.inputs, self.task, self.stream_fn, run_immediately
+            self, 
+            self.inputs, 
+            self.task, 
+            self.stream_fn, 
+            run_immediately,
+            self.artifacts_dir
         )
         _, self.url, _ = self.app.launch(inline=False, inbrowser=True)
         return self.url
