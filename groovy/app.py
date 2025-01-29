@@ -27,7 +27,7 @@ def add_step_counter(image: Image, step_number: int) -> Image:
 
     padding = 8
     x = padding
-    y = img_with_text.height - text_height - padding
+    y = img_with_text.height - text_height - padding - 2
 
     draw.rectangle(
         [

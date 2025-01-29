@@ -57,3 +57,20 @@ class Flow:
         )
         _, self.url, _ = self.app.launch(inline=False, inbrowser=True)
         return self.url
+
+    def to_json(self) -> dict:
+        data = {
+            "task": self.task,
+            "inputs": [input_comp.get_config() for input_comp in self.inputs],
+        }
+        return data
+
+    @classmethod
+    def from_json(cls, data: dict):
+        return cls(
+            task=data["task"],
+            inputs=[
+                gr.components.Component.from_config(input_config)
+                for input_config in data["inputs"]
+            ],
+        )
