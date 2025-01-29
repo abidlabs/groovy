@@ -31,7 +31,7 @@ def take_screenshot(current_step: ActionStep, agent: CodeAgent) -> Image.Image:
     Returns:
         Image.Image: PIL Image object containing the screenshot
     """
-    sleep(1.0)
+    sleep(0.5)
     driver = agent.driver
 
     for step in agent.logs:  # Remove previous screenshots from logs for lean processing
