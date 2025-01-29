@@ -18,6 +18,7 @@ dependencies = [
     "click",
     "huggingface-hub",
     "gradio",
+    "screeninfo"
 ]
 classifiers = [
     "Programming Language :: Python :: 3",
