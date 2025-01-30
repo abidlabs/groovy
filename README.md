@@ -2,6 +2,8 @@
     <a href="https://github.com/abidlabs/groovy/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/abidlabs/groovy.svg?color=blue"></a>
     <a href="https://pypi.org/project/groovy/"><img alt="PyPI" src="https://img.shields.io/pypi/v/groovy"></a>
     <img alt="Python version" src="https://img.shields.io/badge/python-3.10+-important">
+    <a href="https://github.com/abidlabs/groovy/actions/workflows/format.yml"><img alt="Format" src="https://github.com/abidlabs/groovy/actions/workflows/format.yml/badge.svg"></a>
+    <a href="https://github.com/abidlabs/groovy/actions/workflows/test.yml"><img alt="Test" src="https://github.com/abidlabs/groovy/actions/workflows/test.yml/badge.svg"></a>
 </p>
 
 
