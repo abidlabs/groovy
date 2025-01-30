@@ -4,15 +4,13 @@ from typing import Callable, Sequence, Union
 
 import gradio as gr
 
-from groovy.browser_utils import open_positioned_browser
-
 
 class Flow:
     """
-    The core class in Groovy. A Flow consists of:
+    The core class in Groovy. A Flow requires three things:
     * A task to run (string or format string)
     * A set of input components (optional)
-    * A function that accepts a task string and yields an arbitrary number of `str`, `PIL.Image`, or `gr.ChatMessage` responses.
+    * A function that accepts a task string and yields responses.
 
     After instantiating a Flow, you can call .launch() to launch the flow in a Gradio app.
     """
@@ -21,21 +19,21 @@ class Flow:
         self,
         task: str,
         inputs: Sequence[gr.Component] | None = None,
-        stream_fn: Callable[[str], Generator[Union[str, gr.ChatMessage], None, None]]
+        agent_fn: Callable[[str], Generator[Union[str, gr.ChatMessage], None, None]]
         | None = None,
     ):
         """
         Parameters:
             task: The task to run. Can be a regular string or a format string, in which case the input components' values will be passed to it.
             inputs: The input components whose values will be passed to the task, if it's a format string.
-            stream_fn: The generator function that accepts a task string and yields an arbitrary number of `str`, `PIL.Image`, or `gr.ChatMessage` responses. If not provided, the default streamer (which browses the web to complete a task) will be used.
+            agent_fn: Fancy name for a generator function that accepts a task string and yields an arbitrary number of `gv.String()` or `gv.Image()` responses. If not provided, Groovy includes a default streamer, which browses the web to complete a task, that will be used.
         """
         # Import here to speed up the import time of the groovy module
         from groovy.agent import browser_agent_streamer
 
         self.task = task
         self.inputs = inputs or []
-        self.stream_fn = stream_fn or browser_agent_streamer
+        self.agent_fn = agent_fn or browser_agent_streamer
 
     def launch(
         self,
@@ -53,14 +51,16 @@ class Flow:
         """
         # Import here to speed up the import time of the groovy module
         from groovy.app import create_app
+        from groovy.browser_utils import open_positioned_browser
 
         self.save_recording = save_recording
+        self.run_immediately = run_immediately
         self.app = create_app(
             self,
             self.inputs,
             self.task,
-            self.stream_fn,
-            run_immediately,
+            self.agent_fn,
+            self.run_immediately,
             self.save_recording,
         )
         _, self.url, _ = self.app.launch(inline=False, inbrowser=False, prevent_thread_lock=True)

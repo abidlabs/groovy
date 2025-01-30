@@ -1,6 +1,8 @@
 from PIL import ImageDraw, ImageFont
 from PIL.Image import Image
 
+from groovy.browser_utils import open_positioned_browser
+
 
 def add_step_counter(image: Image, step_number: int) -> Image:
     """Add a step counter to the bottom left of an image.
