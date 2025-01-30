@@ -1,14 +1,15 @@
 # 🕺 Groovy
 
-Groovy is a Python library that makes it easy to create, run and share browser automation workflows. Whether you want to quickly scrape some data, automate a repetitive task, or build an interactive demo - Groovy has you covered.
+`groovy` is a Python library that makes it easy to **build** automation workflows (think: applications that control your browser or desktop) and **share** them on Hugging Face Spaces 🤗.
 
 ![Screen Recording 2025-01-29 at 1 30 30 AM (online-video-cutter com)](https://github.com/user-attachments/assets/6cb171cd-9a8a-41e2-927c-badf694595d4)
 
+Groovy 
 
 ## Why Groovy?
 
 - **Run quick browser automations** with a single line of code
-- **Create interactive demos** with customizable UI components
+- **Create automation apps** with customizable UI components
 - **Share workflows easily** via Hugging Face Spaces
 - **Reuse existing workflows** from the community
 
@@ -69,18 +70,7 @@ Take advantage of existing workflows created by the community. Run any published
 groovy run https://huggingface.co/spaces/abidlabs/Activity_Finder
 ```
 
-### Key Flow Features:
-
-- **Format String Support**: Use format strings in tasks to incorporate dynamic input values
-- **Custom UI Components**: Add any Gradio component as input
-- **Stream Functions**: Define custom functions to process and yield responses
-- **Recording**: Save browser automation sessions as GIFs for documentation or sharing
-
 
 ## Contributing
 
-Contributions are welcome! Feel free to:
-- Submit bug reports and feature requests
-- Create and share your own workflows
-- Improve documentation and examples
-- Submit pull requests
+Contributions are welcome! Feel free to submit bug reports and feature requests or submit pull requests
