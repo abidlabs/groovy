@@ -33,8 +33,8 @@ $ pip install groovy[full]
 
 Run browser automations with a single terminal command. No need for complex setup or boilerplate code:
 
-```python
-groovy flow "Find a chicken recipe t"
+```bash
+$ groovy flow "Find a chicken recipe t"
 ```
 
 ### 2. Customize Flows
@@ -87,7 +87,7 @@ with open("board_game_events.csv", "w", newline="") as f:
 Share your automation workflows with others by publishing to Hugging Face Spaces. Just navigate to your project folder and run:
 
 ```bash
-groovy publish
+$ groovy publish
 ```
 
 This will create a public (you can change visibility to private) Hugging Face Space where others can access and use your automation.
@@ -97,7 +97,7 @@ This will create a public (you can change visibility to private) Hugging Face Sp
 Take advantage of existing workflows created by the community. Run any published workflow locally, e.g.:
 
 ```bash
-groovy flow https://huggingface.co/spaces/abidlabs/Activity_Finder
+$ groovy flow https://huggingface.co/spaces/abidlabs/Activity_Finder
 ```
 
 The Python equivalent to load a Flow from Spaces is:
