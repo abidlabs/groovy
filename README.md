@@ -1,3 +1,10 @@
+<p align="center">
+    <a href="https://github.com/abidlabs/groovy/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/abidlabs/groovy.svg?color=blue"></a>
+    <a href="https://pypi.org/project/groovy/"><img alt="PyPI" src="https://img.shields.io/pypi/v/groovy"></a>
+    <img alt="Python version" src="https://img.shields.io/badge/python-3.10+-important">
+</p>
+
+
 <h1 align="center">🕺 Groovy</h1>
 
 `groovy` is a Python library that makes it easy to:
