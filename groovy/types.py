@@ -17,7 +17,7 @@ class StepMessage:
         self.value = value
 
     def as_chat_message(self) -> gr.ChatMessage:
-        pass
+        raise NotImplementedError("Subclass must implement as_chat_message")
 
 
 class String(StepMessage):

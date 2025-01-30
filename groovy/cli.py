@@ -29,7 +29,8 @@ def publish():
         default="flow",
     )
     image_path = click.prompt(
-        "Path to image or gif recording in current directory", default=".groovy/recording.gif"
+        "Path to image or gif recording in current directory",
+        default=".groovy/recording.gif",
     )
     publish_all = click.confirm(
         f"Publish entire directory? (If N, only requirements.txt, {image_path}, {flow_path}, and several generated files will be published)",
