@@ -75,6 +75,7 @@ groovy run https://huggingface.co/spaces/abidlabs/Activity_Finder
 ## Roadmap aka leftover TODOs
 
 
+* Make it easier to modify the default agent
 * Allow `task` to be an arbitrary function of inputs, not just a format string
 * Add `Flow.run(**input)` which runs the flow programmatically without the Gradio UI
 * Add support for `browser-use` and desktop apps
