@@ -33,16 +33,19 @@ class Flow:
             agent_fn: Fancy name for a generator function that accepts a task string and yields an arbitrary number of `gv.String()` or `gv.Image()` responses. If not provided, Groovy includes a built-in browser agent function, which browses the web to complete a task.
         """
         # Import here to speed up the import time of the groovy module
-        try:
-            from groovy.agent import browser_agent_fn
-        except ImportError:
-            raise ImportError(
-                "The browser agent function is not available. Please install the full version of Groovy: `pip install groovy[full]`."
-            )
 
         self.task = task
         self.inputs = inputs or []
-        self.agent_fn = agent_fn or browser_agent_fn
+        if agent_fn is None:
+            try:
+                from groovy.agent import browser_agent_fn
+            except ImportError:
+                raise ImportError(
+                    "The browser agent function is not available. Please install the full version of Groovy: `pip install groovy[full]`."
+                )
+            self.agent_fn = browser_agent_fn
+        else:
+            self.agent_fn = agent_fn
 
     def launch(
         self,
