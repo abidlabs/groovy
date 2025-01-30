@@ -70,8 +70,9 @@ class Flow:
         return self.url
     
     def run(self, *args):
+        output = None
         for step in self.agent_fn(self.task, *args):
-            output.append(step)
+            output = step
         return output
 
     def to_json(self) -> dict:
