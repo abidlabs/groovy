@@ -1,6 +1,8 @@
 import abc
 import gradio as gr 
 import PIL.Image
+
+
 class StepMessage(abc.ABC):
     @abc.abstractmethod
     def as_chat_message(self) -> gr.ChatMessage:
