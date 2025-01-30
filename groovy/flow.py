@@ -4,6 +4,8 @@ from typing import Callable, Sequence, Union
 
 import gradio as gr
 
+from groovy.types import Image, String
+
 
 class Flow:
     """
@@ -19,7 +21,7 @@ class Flow:
         self,
         task: str,
         inputs: Sequence[gr.Component] | None = None,
-        agent_fn: Callable[[str], Generator[Union[str, gr.ChatMessage], None, None]]
+        agent_fn: Callable[[str], Generator[Union[String, Image], None, None]]
         | None = None,
     ):
         """
