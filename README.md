@@ -9,7 +9,7 @@
 
 <h1 align="center">🕺 Groovy</h1>
 
-Hi there! This is `groovy`, a Python library that makes it easy to build, debug, and share workflows or _flows_ (e.g. autonomous applications that perform actions using your browser or desktop).
+Hello! This is `groovy`, a Python library that makes it easy to build, debug, and share workflows or _flows_ (e.g. autonomous applications that perform actions using your browser or desktop).
 
 ✨ **Build** flows with a simple high-level `Flow` class that can wrap any kind of application. Since `groovy` is "batteries-included", you can write your first Flow to control a browser in just a single line.
 
