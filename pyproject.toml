@@ -15,6 +15,7 @@ dependencies = [
     "huggingface-hub",
     "gradio",
     "screeninfo",
+    "selenium",
 ]
 classifiers = [
     "Programming Language :: Python :: 3",
@@ -35,7 +36,6 @@ dev = ["pytest"]
 full = [
     "smolagents[litellm]",
     "helium",
-    "selenium",
     "python-dotenv",
 ]
 
