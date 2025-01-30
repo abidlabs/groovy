@@ -11,18 +11,11 @@
 
 * **build** automation workflows or _flows_ (think: applications that control your browser or desktop)
 * **debug** flows with an intuitive Gradio user interface, and 
-* **share** flows on Hugging Face Spaces 🤗.
+* **share** flows on Hugging Face Spaces 🤗 and reuse flows from the community
 
 ![Screen Recording 2025-01-29 at 1 30 30 AM (online-video-cutter com)](https://github.com/user-attachments/assets/6cb171cd-9a8a-41e2-927c-badf694595d4)
 
  
-## Why?
-
-- **Run quick browser automations** with a single line of code
-- **Create automation _functions_** not just one-off tasks that accept user input via a UI and adjust the task accordingly
-- **Share workflows easily** via Hugging Face Spaces
-- **Reuse existing workflows** from the community 🤗
-
 ## Installation
 
 ```bash
