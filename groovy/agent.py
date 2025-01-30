@@ -132,7 +132,7 @@ def create_agent() -> CodeAgent:
     screen_width = primary_monitor.width
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument("--force-device-scale-factor=1")
-    chrome_options.add_argument(f"--window-size={screen_width-550},{screen_height}")
+    chrome_options.add_argument(f"--window-size={screen_width - 550},{screen_height}")
     chrome_options.add_argument("--disable-pdf-viewer")
     chrome_options.add_argument("--window-position=550,0")
 
