@@ -32,7 +32,10 @@ repository = "https://github.com/gradio-app/groovy"
 groovy = "groovy.cli:main"
 
 [project.optional-dependencies]
-dev = ["pytest"]
+dev = [
+    "pytest",
+    "ruff==0.9.3"
+]
 full = [
     "smolagents[litellm]",
     "helium",
@@ -89,6 +92,3 @@ skip-magic-trailing-comma = false
 
 # Like Black, automatically detect the appropriate line ending.
 line-ending = "auto"
-
-[tool.poetry.group.dev.dependencies]
-ruff = ">=0.2.0"
