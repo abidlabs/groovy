@@ -19,8 +19,6 @@ Groovy
 pip install groovy
 ```
 
-You will also need an `OPENAI_API_KEY` in an `.env` file in the working directory where you run the commands below (TODO: replace with `HF_TOKEN`)
-
 ## Key Features
 
 ### 1. One-Line Browser Automation
