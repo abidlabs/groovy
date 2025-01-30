@@ -15,7 +15,11 @@ def test_flow_with_gradio_inputs():
     """Test Flow initialization with Gradio input components"""
     text_input = gr.Textbox(label="Input")
     slider = gr.Slider(minimum=0, maximum=100)
-    flow = Flow(task="Process {text} with value {value}", inputs=[text_input, slider], agent_fn=lambda x: x)
+    flow = Flow(
+        task="Process {text} with value {value}",
+        inputs=[text_input, slider],
+        agent_fn=lambda x: x,
+    )
 
     assert len(flow.inputs) == 2
     assert isinstance(flow.inputs[0], gr.Textbox)
@@ -25,7 +29,9 @@ def test_flow_with_gradio_inputs():
 def test_flow_serialization():
     """Test Flow serialization to and from JSON"""
     text_input = gr.Textbox(label="Test Input")
-    original_flow = Flow(task="Process {text}", inputs=[text_input], agent_fn=lambda x: x)
+    original_flow = Flow(
+        task="Process {text}", inputs=[text_input], agent_fn=lambda x: x
+    )
 
     json_data = original_flow.to_json()
     restored_flow = Flow.from_json(json_data)

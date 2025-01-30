@@ -103,18 +103,29 @@ class Flow:
         return cls(**constructor_args)
 
     @classmethod
-    def from_json(cls, data: dict):
+    def from_json(
+        cls,
+        data: dict,
+        agent_fn: Callable[[str], Generator[Union[String, Image], None, None]]
+        | None = None,
+    ):
         return cls(
             task=data["task"],
             inputs=[
                 cls.component_from_config(input_config)
                 for input_config in data["inputs"]
             ],
+            agent_fn=agent_fn,
         )
 
     @classmethod
-    def from_space(cls, space_url: str):
+    def from_space(
+        cls,
+        space_url: str,
+        agent_fn: Callable[[str], Generator[Union[String, Image], None, None]]
+        | None = None,
+    ):
         space_id = resolve_space_url_to_id(space_url)
         client = Client(space_id)
         config = client.predict(api_name="/flow_config")
-        return cls.from_json(config)
+        return cls.from_json(config, agent_fn)
