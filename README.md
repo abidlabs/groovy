@@ -102,6 +102,8 @@ groovy run https://huggingface.co/spaces/abidlabs/Activity_Finder
 ## Roadmap aka leftover TODOs
 
 
+* Support structured generation in `.run()` -- how would this work?
+* Support `max_steps` / `max_time` in `.run()`
 * Make it easier to modify the default agent
 * Allow `task` to be an arbitrary function of inputs, not just a format string
 * Add `Flow.run(**input)` which runs the flow programmatically without the Gradio UI
@@ -110,7 +112,6 @@ groovy run https://huggingface.co/spaces/abidlabs/Activity_Finder
 * Generally improve troubleshooting
 * Add support for using the user's default browser 
 * Add more examples
-* Support `max_steps` / `max_time` in `.run()`
 
 ## Contributing
 
