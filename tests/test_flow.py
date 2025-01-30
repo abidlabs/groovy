@@ -34,7 +34,7 @@ def test_flow_serialization():
     )
 
     json_data = original_flow.to_json()
-    restored_flow = Flow.from_json(json_data)
+    restored_flow = Flow.from_json(json_data, agent_fn=lambda x: x)
 
     assert restored_flow.task == original_flow.task
     assert len(restored_flow.inputs) == len(original_flow.inputs)
