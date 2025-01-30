@@ -1,4 +1,4 @@
-# 🕺 Groovy
+<center><h1>🕺 Groovy</h1></center>
 
 `groovy` is a Python library that makes it easy to:
 
