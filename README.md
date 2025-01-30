@@ -23,8 +23,10 @@ Hello! This is `groovy`, a Python library that makes it easy to build, debug, an
  
 ## Installation
 
+Assuming you have Python 3.10 or higher already installed, run in your Terminal:
+
 ```bash
-$ pip install groovy[full]
+pip install groovy[full]
 ```
 
 ## Key Features
@@ -34,7 +36,7 @@ $ pip install groovy[full]
 Run browser automations with a single terminal command. No need for complex setup or boilerplate code:
 
 ```bash
-$ groovy flow "Use Wikipedia to tell me the birth date of George Washington. Return the final answer in this format: MM-DD-YYYY."
+groovy flow "Use Wikipedia to tell me the birth date of George Washington. Return the final answer in this format: MM-DD-YYYY."
 ```
 
 Note: by default, Groovy uses a web-browsing agent built using the excellent [`smolagents` library](https://github.com/huggingface/smolagents). The web-browsing agent works best when provided detailed, step-by-step instructions.
@@ -86,10 +88,10 @@ with open("board_game_events.csv", "w", newline="") as f:
 
 ### 3. Easy Sharing via Hugging Face Spaces
 
-Share your automation workflows with others by publishing to Hugging Face Spaces. Just navigate to your project folder and run:
+Share your automation workflows with others by publishing to Hugging Face Spaces. Just navigate to your project folder and run in the Terminal:
 
 ```bash
-$ groovy publish
+groovy publish
 ```
 
 This will create a public (you can change visibility to private) Hugging Face Space where others can access and use your automation.
@@ -99,7 +101,7 @@ This will create a public (you can change visibility to private) Hugging Face Sp
 Take advantage of existing workflows created by the community. Run any published workflow locally, e.g.:
 
 ```bash
-$ groovy flow https://huggingface.co/spaces/abidlabs/Activity_Finder
+groovy flow https://huggingface.co/spaces/abidlabs/Activity_Finder
 ```
 
 The Python equivalent to load a Flow from Spaces is:
