@@ -231,4 +231,4 @@ def browser_agent_fn(prompt: str):
 
 
 if __name__ == "__main__":
-    browser_agent_streamer(search_request)
+    browser_agent_fn(search_request)
