@@ -1,6 +1,6 @@
 # 🕺 Groovy
 
-`groovy` is a Python library that makes it easy to **build** automation workflows (think: applications that control your browser or desktop) and **share** them on Hugging Face Spaces 🤗.
+`groovy` is a Python library that makes it easy to **build** automation workflows (think: applications that control your browser or desktop), **debug** them with an intuitive Gradio user interface, and **share** them on Hugging Face Spaces 🤗.
 
 ![Screen Recording 2025-01-29 at 1 30 30 AM (online-video-cutter com)](https://github.com/user-attachments/assets/6cb171cd-9a8a-41e2-927c-badf694595d4)
 
