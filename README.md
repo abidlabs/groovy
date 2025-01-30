@@ -26,7 +26,7 @@ Hello! This is `groovy`, a Python library that makes it easy to build, debug, an
 Assuming you have Python 3.10 or higher already installed, run in your terminal:
 
 ```bash
-pip install groovy[full]
+pip install "groovy[full]"
 ```
 
 ## Key Features
