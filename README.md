@@ -11,7 +11,7 @@
 
 Hello! This is `groovy`, a Python library that makes it easy to build, debug, and share workflows (_flows_), e.g. autonomous applications that perform actions using your browser or desktop.
 
-✨ **Build** flows with a simple high-level `Flow` class that can wrap any kind of application. Since `groovy` is "batteries-included", you can write your first Flow to control a browser in just a single line.
+✨ **Build** flows with a simple high-level `Flow` class that can wrap any kind of application. Since `groovy` comes "batteries-included", you can write your first Flow to control a browser in just a single line.
 
 🔎 **Debug** flows with an intuitive Gradio user interface, that exposes agent thought while it runs and allows users to "step-in" and intervene at any point.
 
@@ -36,6 +36,8 @@ Run browser automations with a single terminal command. No need for complex setu
 ```bash
 $ groovy flow "Find a chicken recipe t"
 ```
+
+Note: by default, Groovy uses a web-browsing agent built using the excellent [`smolagents` library](https://github.com/huggingface/smolagents).
 
 ### 2. Customize Flows
 
