@@ -10,7 +10,7 @@ class Flow:
     The core class in Groovy. A Flow requires three things:
     * A task to run (string or format string)
     * A set of input components (optional)
-    * A function that accepts a task string and yields responses.
+    * A generator function that accepts a task string and yields responses.
 
     After instantiating a Flow, you can call .launch() to launch the flow in a Gradio app.
     """
@@ -26,7 +26,7 @@ class Flow:
         Parameters:
             task: The task to run. Can be a regular string or a format string, in which case the input components' values will be passed to it.
             inputs: The input components whose values will be passed to the task, if it's a format string.
-            agent_fn: Fancy name for a generator function that accepts a task string and yields an arbitrary number of `gv.String()` or `gv.Image()` responses. If not provided, Groovy includes a default streamer, which browses the web to complete a task, that will be used.
+            agent_fn: Fancy name for a generator function that accepts a task string and yields an arbitrary number of `gv.String()` or `gv.Image()` responses. If not provided, Groovy includes a built-in browser agent function, which browses the web to complete a task.
         """
         # Import here to speed up the import time of the groovy module
         from groovy.agent import browser_agent_fn
