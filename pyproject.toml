@@ -11,10 +11,6 @@ authors = [
 readme = "README.md"
 requires-python = ">3.9"
 dependencies = [
-    "smolagents[litellm]",
-    "helium",
-    "selenium",
-    "python-dotenv",
     "click",
     "huggingface-hub",
     "gradio",
@@ -36,6 +32,12 @@ groovy = "groovy.cli:main"
 
 [project.optional-dependencies]
 dev = ["pytest"]
+full = [
+    "smolagents[litellm]",
+    "helium",
+    "selenium",
+    "python-dotenv",
+]
 
 [tool.hatch.build.targets.wheel]
 packages = ["groovy"]

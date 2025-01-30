@@ -189,7 +189,7 @@ def load_flow_from_space(space_url: str):
 
 @cli.command()
 @click.argument("task")
-def run(task: str):
+def flow(task: str):
     """Launch a Groovy flow with the specified task as a string, or a URL to a Groovy Space"""
     if task.startswith(("https://", "http://")):
         flow = load_flow_from_space(task)
