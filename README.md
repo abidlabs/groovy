@@ -69,6 +69,16 @@ groovy run https://huggingface.co/spaces/abidlabs/Activity_Finder
 ```
 
 
+## Roadmap aka leftover TODOs
+
+
+* Allow `task` to be an arbitrary function of inputs, not just a format string
+* Add `Flow.run(**input)` which runs the flow programmatically without the Gradio UI
+* Add support for `browser-use` and desktop apps
+* Make screen recording more robust
+* Generally improve troubleshooting
+
 ## Contributing
 
 Contributions are welcome! Feel free to submit bug reports and feature requests or submit pull requests
+
