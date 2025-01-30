@@ -20,17 +20,19 @@ theme.set(
 
 def create_app(self, inputs, prompt, streamer, run_immediately, save_recording):
     with gr.Blocks(theme=theme) as app:
-        with gr.Accordion("Input parameters (used to construct the task)", open=True, visible=bool(inputs)) as inputs_accordion:
+        with gr.Accordion(
+            "Input parameters (used to construct the task)",
+            open=True,
+            visible=bool(inputs),
+        ) as inputs_accordion:
             for input in inputs:
                 input.render()
 
         with gr.Group():
-                prompt_box = gr.Textbox(
-                    label="🕺 Constructed Task", value=prompt
-                )
-                with gr.Row():
-                    run_button = gr.Button("Start Flow", variant="primary")
-                    stop_button = gr.Button("Stop Flow", variant="stop", visible=False)
+            prompt_box = gr.Textbox(label="🕺 Constructed Task", value=prompt)
+            with gr.Row():
+                run_button = gr.Button("Start Flow", variant="primary")
+                stop_button = gr.Button("Stop Flow", variant="stop", visible=False)
 
         chat_log = gr.Chatbot(
             label="Log",
@@ -51,7 +53,6 @@ def create_app(self, inputs, prompt, streamer, run_immediately, save_recording):
         run_triggers = [run_button.click]
         if run_immediately:
             run_triggers.append(app.load)
-
 
         def run_flow_ui_changes():
             return {
@@ -96,7 +97,6 @@ def create_app(self, inputs, prompt, streamer, run_immediately, save_recording):
                     )
                 yield log
 
-        
         gr.on(
             fn=run_flow_ui_changes,
             triggers=run_triggers,

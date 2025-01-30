@@ -29,11 +29,11 @@ class Flow:
             agent_fn: Fancy name for a generator function that accepts a task string and yields an arbitrary number of `gv.String()` or `gv.Image()` responses. If not provided, Groovy includes a default streamer, which browses the web to complete a task, that will be used.
         """
         # Import here to speed up the import time of the groovy module
-        from groovy.agent import browser_agent_streamer
+        from groovy.agent import browser_agent_fn
 
         self.task = task
         self.inputs = inputs or []
-        self.agent_fn = agent_fn or browser_agent_streamer
+        self.agent_fn = agent_fn or browser_agent_fn
 
     def launch(
         self,
@@ -63,12 +63,14 @@ class Flow:
             self.run_immediately,
             self.save_recording,
         )
-        _, self.url, _ = self.app.launch(inline=False, inbrowser=False, prevent_thread_lock=True)
+        _, self.url, _ = self.app.launch(
+            inline=False, inbrowser=False, prevent_thread_lock=True
+        )
         open_positioned_browser(self.url, width=500)
         while 1:
             time.sleep(0.001)
         return self.url
-    
+
     def run(self, *args):
         output = None
         for step in self.agent_fn(self.task, *args):

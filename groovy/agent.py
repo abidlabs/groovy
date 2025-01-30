@@ -214,7 +214,7 @@ Find flights from New York to San Francisco on 2025-02-01. Give me the cheapest 
 """
 
 
-def browser_agent_streamer(prompt: str):
+def browser_agent_fn(prompt: str):
     if not api_key:
         raise ValueError("OPENAI_API_KEY environment variable is not set")
 

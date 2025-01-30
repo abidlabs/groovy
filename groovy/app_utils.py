@@ -44,8 +44,8 @@ def add_step_counter(image: Image, step_number: int) -> Image:
     return img_with_text
 
 
-
 if __name__ == "__main__":
     open_positioned_browser("https://www.google.com")
     import time
+
     time.sleep(3)

@@ -32,7 +32,7 @@ $ pip install groovy[full]
 No need for Run instant browser automations with a single command. No need for complex setup or boilerplate code:
 
 ```python
-groovy flow "Find the next upcoming event in San Francisco related to board games"
+groovy flow "Find the next upcoming meetup in San Francisco related to board games"
 ```
 
 ### 2. Customize Flows
@@ -44,7 +44,7 @@ from groovy import Flow
 import gradio as gr
 
 flow = Flow(
-    task="Find the next upcoming event in {} related to {}",
+    task="Find the next upcoming meetup in {} related to {}",
     inputs=[
         gr.Textbox(label="Location", value="San Francisco")
         gr.Textbox(label="Activity", value="board games"),
@@ -62,7 +62,7 @@ The `Flow` class can also be run programmatically so that it can be used as part
 from groovy import Flow
 import csv
 
-flow = Flow(task="Find the next upcoming event in {} related to {}")
+flow = Flow(task="Find the next upcoming meetup in {} related to {}")
 
 cities = [
     "San Francisco", "New York", "Chicago", "Los Angeles", "Seattle",
