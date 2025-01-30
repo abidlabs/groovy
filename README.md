@@ -7,11 +7,15 @@
 
 <h1 align="center">🕺 Groovy</h1>
 
-`groovy` is a Python library that makes it easy to:
+Hello, there! This is `groovy`, a Python library that makes it easy to build, debug, and share workflows or _flows_ (e.g. autonomous applications that perform actions using your browser or desktop).
 
-* **build** automation workflows or _flows_ (think: applications that control your browser or desktop)
-* **debug** flows with an intuitive Gradio user interface, and 
-* **share** flows on Hugging Face Spaces 🤗 and reuse flows from the community
+✨ **build** flows with a simple high-level `Flow` class that can wrap any kind of application. `groovy` is "batteries-included" so you can write your first Flow in just a single line.
+
+🔎 **debug** flows with an intuitive Gradio user interface, that exposes agent thought while it runs and allows users to "step-in" and intervene at any point.
+
+🤗 **share** flows on Hugging Face Spaces publicly (or with specific collaborators) and reuse flows from the community
+
+As simple as:
 
 ![Screen Recording 2025-01-29 at 1 30 30 AM (online-video-cutter com)](https://github.com/user-attachments/assets/6cb171cd-9a8a-41e2-927c-badf694595d4)
 
@@ -19,7 +23,7 @@
 ## Installation
 
 ```bash
-pip install --upgrade groovy
+pip install groovy
 ```
 
 ## Key Features
