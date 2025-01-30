@@ -142,7 +142,7 @@ def create_agent() -> CodeAgent:
         tools=[go_back, close_popups, search_item_ctrl_f],
         model=model,
         additional_authorized_imports=["helium"],
-        max_steps=20,
+        max_steps=50,
         verbosity_level=0,
     )
     agent.driver = driver  # Store the driver instance in the agent
@@ -215,8 +215,12 @@ Find flights from New York to San Francisco on 2025-02-01. Give me the cheapest 
 
 
 def browser_agent_fn(prompt: str):
+    global api_key
     if not api_key:
-        raise ValueError("OPENAI_API_KEY environment variable is not set")
+        api_key = input("Please enter your OpenAI API key: ").strip()
+        if not api_key:
+            raise ValueError("OpenAI API key is required")
+        model.api_key = api_key
 
     global agent
     if agent is None:
