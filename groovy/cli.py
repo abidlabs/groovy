@@ -4,7 +4,6 @@ import re
 import click
 import gradio as gr
 import huggingface_hub
-from gradio_client import Client
 
 from groovy import __version__
 from groovy.flow import Flow

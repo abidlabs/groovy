@@ -108,11 +108,10 @@ class Flow:
                 for input_config in data["inputs"]
             ],
         )
-    
+
     @classmethod
     def from_space(cls, space_url: str):
         space_id = resolve_space_url_to_id(space_url)
         client = Client(space_id)
         config = client.predict(api_name="/flow_config")
         return cls.from_json(config)
-

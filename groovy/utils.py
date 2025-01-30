@@ -1,6 +1,5 @@
 from urllib.parse import urlparse
 
-from gradio_client import Client
 from screeninfo import get_monitors
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -60,10 +59,3 @@ def resolve_space_url_to_id(space_url: str) -> str:
     owner = path_parts[1]
     space_name = path_parts[2]
     return f"{owner}/{space_name}"
-
-
-def load_flow_from_space(space_url: str):
-    space_id = resolve_space_url_to_id(space_url)
-    client = Client(space_id)
-    config = client.predict(api_name="/flow_config")
-    return gv.Flow.from_json(config)
