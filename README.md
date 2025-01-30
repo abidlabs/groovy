@@ -9,9 +9,9 @@ Groovy
 ## Why Groovy?
 
 - **Run quick browser automations** with a single line of code
-- **Create automation apps** with customizable UI components
+- **Create automation _functions_** that accept user input via a UI and adjust the task accordingly
 - **Share workflows easily** via Hugging Face Spaces
-- **Reuse existing workflows** from the community
+- **Reuse existing workflows** from the community 🤗
 
 ## Installation
 
