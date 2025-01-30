@@ -19,7 +19,7 @@
 ## Installation
 
 ```bash
-pip install groovy
+pip install --upgrade groovy
 ```
 
 ## Key Features
