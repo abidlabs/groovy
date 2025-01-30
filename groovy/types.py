@@ -13,20 +13,20 @@ class StepMessage:
     2. To easily convert values to a gradio ChatMessage object
     """
 
-    def __init__(self, content):
-        self.content = content
+    def __init__(self, value):
+        self.value = value
 
     def as_chat_message(self) -> gr.ChatMessage:
         pass
 
 
-class String(StepMessage, str):
+class String(StepMessage):
     """
     A step message that behaves like a string.
     """
 
     def as_chat_message(self) -> gr.ChatMessage:
-        return gr.ChatMessage(content=self.content, role="assistant")
+        return gr.ChatMessage(content=self.value, role="assistant")
 
 
 class Image(StepMessage):
@@ -34,11 +34,12 @@ class Image(StepMessage):
     A step message that contains an PIL Image.
     """
 
-    def __init__(self, image: PIL.Image.Image):
-        self.image = image
+    def __init__(self, value, save_in_recording: bool = True):
+        self.value = value
+        self.save_in_recording = save_in_recording
 
     def as_chat_message(self) -> gr.ChatMessage:
-        return gr.ChatMessage(content=gr.Image(self.image), role="assistant")
+        return gr.ChatMessage(content=gr.Image(self.value), role="assistant")
 
 
 def raw_value_to_step_message(value):
