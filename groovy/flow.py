@@ -49,7 +49,7 @@ class Flow:
 
     def launch(
         self,
-        save_recording: bool = False,
+        save_recording: bool = True,
         run_immediately: bool = False,
         **kwargs,
     ):

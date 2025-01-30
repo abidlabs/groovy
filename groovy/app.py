@@ -88,9 +88,10 @@ def create_app(self, inputs, prompt, streamer, run_immediately, save_recording):
                         step_message.value, len(images_for_gif) + 1
                     )
                     images_for_gif.append(img_with_text)
-                    print(f"images_for_gif: {images_for_gif}")
                     if len(images_for_gif) > 0:
-                        gif_path = Path.cwd() / ".groovy" / "recording.gif"
+                        gif_dir = Path.cwd() / ".groovy"
+                        gif_dir.mkdir(exist_ok=True)
+                        gif_path = gif_dir / "recording.gif"
                         images_for_gif[0].save(
                             gif_path,
                             save_all=True,

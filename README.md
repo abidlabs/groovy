@@ -34,10 +34,10 @@ $ pip install groovy[full]
 Run browser automations with a single terminal command. No need for complex setup or boilerplate code:
 
 ```bash
-$ groovy flow "Go to AllRecipes and find the top french toast recipe whose duration is less than 20 minutes."
+$ groovy flow "Use Wikipedia to tell me the birth date of George Washington. Return the final answer in this format: MM-DD-YYYY."
 ```
 
-Note: by default, Groovy uses a web-browsing agent built using the excellent [`smolagents` library](https://github.com/huggingface/smolagents).
+Note: by default, Groovy uses a web-browsing agent built using the excellent [`smolagents` library](https://github.com/huggingface/smolagents). The web-browsing agent works best when provided detailed, step-by-step instructions.
 
 ### 2. Customize Flows
 
