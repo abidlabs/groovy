@@ -23,7 +23,7 @@ Hello! This is `groovy`, a Python library that makes it easy to build, debug, an
  
 ## Installation
 
-Assuming you have Python 3.10 or higher already installed, run in your Terminal:
+Assuming you have Python 3.10 or higher already installed, run in your terminal:
 
 ```bash
 pip install groovy[full]
@@ -88,7 +88,7 @@ with open("board_game_events.csv", "w", newline="") as f:
 
 ### 3. Easy Sharing via Hugging Face Spaces
 
-Share your automation workflows with others by publishing to Hugging Face Spaces. Just navigate to your project folder and run in the Terminal:
+Share your automation workflows with others by publishing to Hugging Face Spaces. Just navigate to your project folder and run in the terminal:
 
 ```bash
 groovy publish
@@ -98,18 +98,20 @@ This will create a public (you can change visibility to private) Hugging Face Sp
 
 ### 4. Use Community Workflows
 
-Take advantage of existing workflows created by the community. Run any published workflow locally, e.g.:
+Take advantage of existing workflows created by the community. Run any published workflow locally from your terminal, e.g.:
 
 ```bash
 groovy flow https://huggingface.co/spaces/abidlabs/Activity_Finder
 ```
 
-The Python equivalent to load a Flow from Spaces is:
+The Python equivalent to load a Flow from Spaces is also straightforward:
 
 ```python
 import groovy as gv
 
 flow = gv.Flow.from_space("https://huggingface.co/spaces/abidlabs/Activity_Finder")
+
+...
 ```
 
 ## Roadmap aka leftover TODOs
