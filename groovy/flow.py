@@ -68,6 +68,11 @@ class Flow:
         while 1:
             time.sleep(0.001)
         return self.url
+    
+    def run(self, *args):
+        for step in self.agent_fn(self.task, *args):
+            output.append(step)
+        return output
 
     def to_json(self) -> dict:
         data = {

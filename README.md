@@ -32,7 +32,7 @@ $ pip install groovy[full]
 No need for Run instant browser automations with a single command. No need for complex setup or boilerplate code:
 
 ```python
-groovy flow "find upcoming events in San Francisco related to board games"
+groovy flow "Find the next upcoming events in San Francisco related to board games"
 ```
 
 ### 2. Customize Flows
@@ -44,7 +44,7 @@ from groovy import Flow
 import gradio as gr
 
 flow = Flow(
-    task="Find upcoming events in {} related to {}",
+    task="Find the next upcoming event in {} related to {}",
     inputs=[
         gr.Textbox(label="Location", value="San Francisco")
         gr.Textbox(label="Activity", value="board games"),
@@ -52,6 +52,32 @@ flow = Flow(
 )
 
 flow.launch()
+```
+
+#### Run Flows Programmatically
+
+The `Flow` class can also be run programmatically so that it can be used as part of larger programs. Here's an example:
+
+```python
+from groovy import Flow
+import csv
+
+flow = Flow(task="Find the next upcoming event in {} related to {}")
+
+cities = [
+    "San Francisco", "New York", "Chicago", "Los Angeles", "Seattle",
+    "Austin", "Boston", "Denver", "Portland", "Miami"
+]
+
+results = []
+for city in cities:
+    event_info = flow.run(city, "board games")
+    results.append({"city": city, "event": event_info})
+
+with open("board_game_events.csv", "w", newline="") as f:
+    writer = csv.DictWriter(f, fieldnames=["city", "event"])
+    writer.writeheader()
+    writer.writerows(results)
 ```
 
 ### 3. Easy Sharing via Hugging Face Spaces
@@ -82,6 +108,9 @@ groovy run https://huggingface.co/spaces/abidlabs/Activity_Finder
 * Add support for `browser-use` and desktop apps
 * Make screen recording more robust
 * Generally improve troubleshooting
+* Add support for using the user's default browser 
+* Add more examples
+* Support `max_steps` / `max_time` in `.run()`
 
 ## Contributing
 
