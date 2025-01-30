@@ -29,7 +29,7 @@ $ pip install groovy[full]
 
 ### 1. Get started immediately ✨
 
-No need for Run instant browser automations with a single command. No need for complex setup or boilerplate code:
+Run browser automations with a single terminal command. No need for complex setup or boilerplate code:
 
 ```python
 groovy flow "Find the next upcoming meetup in San Francisco related to board games"
