@@ -126,6 +126,7 @@ flow = gv.Flow.from_space("https://huggingface.co/spaces/abidlabs/Activity_Finde
 * Better cleanup of gradio ui and browsing windows when script is terminated
 * Allow pausing / stopping from gradio ui
 * Improve default BrowserAgent tool as it gives lookup errors way too often.
+* Warn before using OPENAI_API_KEY
 
 ## Contributing
 
