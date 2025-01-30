@@ -115,5 +115,5 @@ groovy run https://huggingface.co/spaces/abidlabs/Activity_Finder
 
 ## Contributing
 
-Contributions are welcome! Feel free to submit bug reports and feature requests or submit pull requests
+Contributions are welcome! Feel free to submit bug reports and feature requests or submit pull requests. Star this repo if you find it interesting ⭐
 
