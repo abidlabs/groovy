@@ -3,8 +3,10 @@ from collections.abc import Generator
 from typing import Callable, Sequence, Union
 
 import gradio as gr
+from gradio_client import Client
 
 from groovy.types import Image, String
+from groovy.utils import resolve_space_url_to_id
 
 
 class Flow:
@@ -58,7 +60,7 @@ class Flow:
         """
         # Import here to speed up the import time of the groovy module
         from groovy.app import create_app
-        from groovy.browser_utils import open_positioned_browser
+        from groovy.utils import open_positioned_browser
 
         self.save_recording = save_recording
         self.run_immediately = run_immediately
@@ -106,3 +108,11 @@ class Flow:
                 for input_config in data["inputs"]
             ],
         )
+    
+    @classmethod
+    def from_space(cls, space_url: str):
+        space_id = resolve_space_url_to_id(space_url)
+        client = Client(space_id)
+        config = client.predict(api_name="/flow_config")
+        return cls.from_json(config)
+

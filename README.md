@@ -32,7 +32,7 @@ $ pip install groovy[full]
 Run browser automations with a single terminal command. No need for complex setup or boilerplate code:
 
 ```python
-groovy flow "Find the next upcoming meetup in San Francisco related to board games"
+groovy flow "Find a chicken recipe t"
 ```
 
 ### 2. Customize Flows
@@ -95,9 +95,16 @@ This will create a public (you can change visibility to private) Hugging Face Sp
 Take advantage of existing workflows created by the community. Run any published workflow locally, e.g.:
 
 ```bash
-groovy run https://huggingface.co/spaces/abidlabs/Activity_Finder
+groovy flow https://huggingface.co/spaces/abidlabs/Activity_Finder
 ```
 
+The Python equivalent to load a Flow from Spaces is:
+
+```python
+import groovy as gv
+
+flow = gv.Flow.from_space("https://huggingface.co/spaces/abidlabs/Activity_Finder")
+```
 
 ## Roadmap aka leftover TODOs
 
