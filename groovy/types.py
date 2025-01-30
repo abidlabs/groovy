@@ -1,3 +1,5 @@
+import warnings
+
 import gradio as gr
 import PIL.Image
 
@@ -45,4 +47,5 @@ def raw_value_to_step_message(value):
     elif isinstance(value, PIL.Image.Image):
         return Image(value)
     else:
-        raise ValueError(f"Unsupported value type: {type(value)}")
+        warnings.warn(f"Unsupported value type: {type(value)}. Will treat as a string.")
+        return String(str(value))
