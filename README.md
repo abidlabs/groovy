@@ -122,7 +122,8 @@ flow = gv.Flow.from_space("https://huggingface.co/spaces/abidlabs/Activity_Finde
 * Better cleanup of gradio ui and browsing windows when script is terminated
 * Allow pausing / stopping from gradio ui / include timing information in UI
 * Warn before using OPENAI_API_KEY / HF_TOKEN
-* Add better examples in readme / Spaces (twitter explorer find tweets about a particular topic), research presidents' wife. Chain Flows together
+* Add better examples in readme / Spaces (twitter explorer find tweets about a particular topic), research presidents' spouse. Chain Flows together
+* Add support for using the user's default browser 
 
 * Allow retrying from cli and python (understand why browsing fails first. also add max_time_per_step?)
 * Support `max_steps` / `max_time` in `.run()`
@@ -133,7 +134,6 @@ flow = gv.Flow.from_space("https://huggingface.co/spaces/abidlabs/Activity_Finde
 * Make it easier to modify the default agent (e.g. by copy-pasting it into the working directory)
 * Allow `task` to be an arbitrary function of inputs, not just a format string
 * Add support for `browser-use` and desktop apps
-* Add support for using the user's default browser 
 
 ## Contributing
 
