@@ -125,6 +125,7 @@ flow = gv.Flow.from_space("https://huggingface.co/spaces/abidlabs/Activity_Finde
 * Improve default BrowserAgent tool as it gives lookup errors way too often.
 * Warn before using OPENAI_API_KEY / HF_TOKEN
 * Allow retrying from cli and python (understand why browsing fails first. also add max_time_per_step?)
+* Get a complex flow woking reliably and fast, add logs
 
 * Support structured generation in `.run()` -- how would this work?
 * Support `max_steps` / `max_time` in `.run()`
