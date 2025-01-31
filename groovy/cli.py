@@ -156,6 +156,12 @@ def format_title(title: str):
 
 
 @cli.command()
+def version():
+    """Display the current version of Groovy"""
+    click.echo(__version__)
+
+
+@cli.command()
 @click.argument("task")
 def flow(task: str):
     """Launch a Groovy flow with the specified task as a string, or a URL to a Groovy Space"""
