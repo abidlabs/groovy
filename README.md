@@ -134,6 +134,7 @@ flow = gv.Flow.from_space("https://huggingface.co/spaces/abidlabs/Activity_Finde
 * Make it easier to modify the default agent (e.g. by copy-pasting it into the working directory)
 * Allow `task` to be an arbitrary function of inputs, not just a format string
 * Add support for `browser-use` and desktop apps
+* Give examples of how this could be useful long-term (e.g. autonomous agents running on cron jobs & slacking you important stuff)
 
 ## Contributing
 
