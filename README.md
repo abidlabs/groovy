@@ -7,7 +7,7 @@
 </p>
 
 <p align="center">
-<img src="https://github.com/user-attachments/assets/49d40a48-3c73-4911-8033-250cfa7aafd4" width=500>
+<img src="https://github.com/user-attachments/assets/49d40a48-3c73-4911-8033-250cfa7aafd4" width=400>
 </p>
 
 Hello! This is `groovy`, a Python library that makes it easy to build, debug, and share workflows (_flows_), e.g. autonomous applications that perform actions using your browser or desktop.
