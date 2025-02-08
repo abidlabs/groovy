@@ -6,8 +6,7 @@
     <a href="https://github.com/abidlabs/groovy/actions/workflows/test.yml"><img alt="Test" src="https://github.com/abidlabs/groovy/actions/workflows/test.yml/badge.svg"></a>
 </p>
 
-
-<h1 align="center">🕺 Groovy</h1>
+![image](https://github.com/user-attachments/assets/49d40a48-3c73-4911-8033-250cfa7aafd4)
 
 Hello! This is `groovy`, a Python library that makes it easy to build, debug, and share workflows (_flows_), e.g. autonomous applications that perform actions using your browser or desktop.
 
